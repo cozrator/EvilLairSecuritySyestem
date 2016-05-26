@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.util.Map;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,10 +34,24 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	private Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
 	private Font textFont = new Font("Arial", Font.PLAIN, 14);
 	
+	JCheckBox toggleLockdown;
+	JCheckBox toggleInfaRed;
+	JCheckBox toggleNightVision;
+	
+	JLabel infaRed;
+	JLabel nightVision;
+	JLabel lockdownOn;
+	JLabel lockdownOff;
+	
+	boolean inLockdown;
+	
+	
 	public IndividualCameraFeed(MainWindow window, JButton button, int population, boolean inLockdown){
 		this.window = window;
 		
 		this.setLayout(new BorderLayout());
+		
+		this.inLockdown = inLockdown;
 		
 		//Setting up button
 		button.setBackground(Color.WHITE);
@@ -58,12 +73,29 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		JPanel streamArea = new JPanel();
 		
 		streamArea.setBackground(Color.WHITE);
-		streamArea.setLayout(new BorderLayout());
+		//streamArea.setLayout(new BorderLayout());
 		
 		ImageIcon image = resizeImage((ImageIcon) button.getIcon(), 1780, 910);
+		ImageIcon ir = new ImageIcon(getClass().getClassLoader().getResource("assets/infaredOverlay.png"));
+		ImageIcon nv = new ImageIcon(getClass().getClassLoader().getResource("assets/nightvisionOverlay.png"));
 		
 		JLabel lbl = new JLabel(image);
+		infaRed = new JLabel(ir);
+		nightVision = new JLabel(nv);
+		
+		streamArea.setLayout(null);
+		
+		lbl.setBounds(0, 0, 1780, 910);
+		infaRed.setBounds(0, 0, 1780, 910);
+		nightVision.setBounds(0, 0, 1780, 910);
+		
+		infaRed.setVisible(false);
+		nightVision.setVisible(false);
+		
+		streamArea.add(nightVision);
+		streamArea.add(infaRed);
 		streamArea.add(lbl);
+		
 		return streamArea;
 	}
 	
@@ -104,9 +136,9 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	private JPanel createToggleArea(){
 		JPanel toggleArea = new JPanel();
 		GridLayout gl = new GridLayout(0,2);
-		JCheckBox toggleLockdown = new JCheckBox();
-		JCheckBox toggleInfaRed = new JCheckBox();
-		JCheckBox toggleNightVision = new JCheckBox();
+		toggleLockdown = new JCheckBox();
+		toggleInfaRed = new JCheckBox();
+		toggleNightVision = new JCheckBox();
 		JTextField lockdownLbl = new JTextField("Enable Lockdown: ");
 		JTextField infaRedLbl = new JTextField("Enable Infa-Red: ");
 		JTextField nightVisionLbl = new JTextField("Enable Night-Vision: ");
@@ -116,27 +148,75 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		//Initialize Text Areas
 		lockdownLbl.setBackground(Color.WHITE);
 		lockdownLbl.setFont(textFont);
-//		lockdownLbl.setEditable(false);
 		lockdownLbl.setBorder(null);
 		
 		infaRedLbl.setBackground(Color.WHITE);
 		infaRedLbl.setFont(textFont);
-//		infaRedLbl.setEditable(false);
 		infaRedLbl.setBorder(null);
 		
 		nightVisionLbl.setBackground(Color.WHITE);
 		nightVisionLbl.setFont(textFont);
-//		nightVisionLbl.setEditable(false);
 		nightVisionLbl.setBorder(null);
 		
 		//Initialize Checkboxes
 		toggleLockdown.setBackground(Color.WHITE);
-		toggleLockdown.setActionCommand("Lockdown");
+		ActionListener lockdownAction = new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		        boolean selected = abstractButton.getModel().isSelected();
+		        System.out.println(selected);
+		        // abstractButton.setText(newLabel);
+		        if (selected == true){
+		        	lockdownOn.setVisible(true);
+					lockdownOff.setVisible(false);
+		        	inLockdown = true;
+		        }
+		        if (selected == false){
+		        	lockdownOn.setVisible(false);
+					lockdownOff.setVisible(true);
+		        	inLockdown = false;
+		        }
+			}
+		 };
+		 toggleLockdown.addActionListener(lockdownAction);
 		
 		toggleInfaRed.setBackground(Color.WHITE);
-		toggleInfaRed.setActionCommand("InfaRed");
+		ActionListener infaRedAction = new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		        boolean selected = abstractButton.getModel().isSelected();
+		        System.out.println(selected);
+		        // abstractButton.setText(newLabel);
+		        if (selected == true){
+		        	infaRed.setVisible(true);
+		        	toggleNightVision.setSelected(false);
+		        	nightVision.setVisible(false);
+		        }
+		        if (selected == false){
+		        	infaRed.setVisible(false);
+		        }
+			}
+		 };
+		 toggleInfaRed.addActionListener(infaRedAction);
 		
 		toggleNightVision.setBackground(Color.WHITE);
+		ActionListener nightvisionAction = new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		        boolean selected = abstractButton.getModel().isSelected();
+		        System.out.println(selected);
+		        // abstractButton.setText(newLabel);
+		        if (selected == true){
+		        	nightVision.setVisible(true);
+		        	toggleInfaRed.setSelected(false);
+		        	infaRed.setVisible(false);
+		        }
+		        if (selected == false){
+		        	nightVision.setVisible(false);
+		        }
+			}
+		 };
+		 toggleNightVision.addActionListener(nightvisionAction);
 		
 		//Initialize JPanel
 		toggleArea.setBackground(Color.WHITE);
@@ -153,6 +233,42 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	}
 	
 	/**
+	 * EAST CENTRE
+	 * Creates lockdown image in centre east area
+	 */
+	private JPanel createLockdownImageArea(){
+		JPanel lockdownArea = new JPanel();
+		
+		ImageIcon active = new ImageIcon(getClass().getClassLoader().getResource("assets/locked.png"));
+		ImageIcon inactive = new ImageIcon(getClass().getClassLoader().getResource("assets/unlocked.png"));
+		
+		lockdownOn = new JLabel(active);
+		lockdownOff = new JLabel(inactive);
+		
+		lockdownOn.setVisible(false);
+		lockdownOff.setVisible(false);
+		
+		System.out.println(inLockdown);
+		if (inLockdown == true){
+			System.out.println("in true");
+			toggleLockdown.setSelected(true);
+			lockdownOn.setVisible(true);
+			lockdownOff.setVisible(false);
+		}
+		if (inLockdown == false){
+			toggleLockdown.setSelected(false);
+			System.out.println("in false");
+			lockdownOn.setVisible(false);
+			lockdownOff.setVisible(true);
+		}
+		
+		lockdownArea.add(lockdownOn);
+		lockdownArea.add(lockdownOff);
+		
+		return lockdownArea;
+	}
+	
+	/**
 	 * CENTER EAST
 	 * Creates information area in the east
 	 * @param population
@@ -163,8 +279,10 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		JPanel contentArea = new JPanel();
 		
 		contentArea.setLayout(new BorderLayout());
-		contentArea.add(createInfoArea(population, inLockdown), BorderLayout.NORTH);
 		contentArea.add(createToggleArea(), BorderLayout.SOUTH);
+		contentArea.add(createInfoArea(population, inLockdown), BorderLayout.NORTH);
+		contentArea.add(createLockdownImageArea(), BorderLayout.CENTER);
+		
 		return contentArea;
 	}
 	
@@ -377,6 +495,9 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("Back")){
 			window.screenTransition(new MainCameraFeed(this.window));
+		}
+		else if(e.getActionCommand().equals("InfaRed")){
+			System.out.println("EY");
 		}
 	}
 }
