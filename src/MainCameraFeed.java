@@ -57,7 +57,7 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 		cameraFeed = new JFrame();
 		
 		//frame = new JFrame();
-		feeds = new JFrame();
+		//feeds = new JFrame();
 		
 		gl = new GridLayout();
 		gl.setColumns(5);
@@ -72,7 +72,7 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 		
 		this.add(createBody(), bl.CENTER);
 		this.add(createNorthArea(), bl.NORTH);
-		feeds.setVisible(true);
+		//feeds.setVisible(true);
 		this.setVisible(true);
 	}
 	

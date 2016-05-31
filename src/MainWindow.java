@@ -2,9 +2,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 /**
  * 
@@ -17,14 +19,16 @@ import javax.swing.JPanel;
 public class MainWindow {
 	
 	JFrame frame = new JFrame();
-	JPanel currentScreen; 
+	JComponent currentScreen;
+	TrapStatusManager trapStatusManager = new TrapStatusManager();
 	
 	/**
 	 * 
 	 */
 	public MainWindow() {
-		currentScreen = new LogInScreen(this);
+		currentScreen = new TrapFeedScreen(this);
 		frame.add(currentScreen);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setTitle("Evil Lair Security System");
 		frame.pack();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
