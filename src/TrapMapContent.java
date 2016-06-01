@@ -98,7 +98,6 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 				return false;
 			}
 		};
-		output.setBackground(Color.blue);
 		output.setLayout(new OverlayLayout(output));
 
 		// add buttons
