@@ -26,7 +26,7 @@ public class MainWindow {
 	 * 
 	 */
 	public MainWindow() {
-		currentScreen = new TrapFeedScreen(this);
+		currentScreen = new LogInScreen(this);
 		frame.add(currentScreen);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setTitle("Evil Lair Security System");
