@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
@@ -12,6 +13,7 @@ import javax.swing.event.ChangeListener;
 @SuppressWarnings("serial")
 public class TrapMapContent extends TrapContent implements ChangeListener {
 	MainWindow window;
+	TrapStatusManager mgr;
 	JSlider zoom = new JSlider(JSlider.VERTICAL);
 	BufferedImage img;
 	float scale = 1;
@@ -49,12 +51,29 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 		}
 	}
 
-	public TrapMapContent(MainWindow window) {
+	public TrapMapContent(MainWindow window, SelectedArea area, SelectedRoom room) {
 		super();
 		this.window = window;
+		mgr = window.trapStatusManager;
 		BorderLayout bl = new BorderLayout();
 		this.setLayout(bl);
-		loadImage("assets/outside.jpg");
+		this.setSelectedArea(area);
+		this.setSelectedRoom(room);
+		switch(area) {
+		case AREA01:
+			loadImage("assets/inside1.jpg");
+			break;
+		case AREA02:
+			loadImage("assets/inside2.jpg");
+			break;
+		case OUTSIDE:
+			loadImage("assets/outside.jpg");
+			break;
+		default:
+			loadImage("assets/outside.jpg");
+			break;
+		
+		}
 		content = makeUI();
 		this.add(content, BorderLayout.CENTER);
 
@@ -124,57 +143,41 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 	}
 
 	private void addArea01Buttons(JPanel panel) {
-		switch (this.getSelectedRoom()) {
-		case ALL:
-			addRoom01Buttons(panel);
-			addRoom04Buttons(panel);
-			break;
-		case ROOM01:
-			addRoom01Buttons(panel);
-			break;
-		case ROOM02:
-			break;
-		case ROOM03:
-			break;
-		case ROOM04:
-			addRoom04Buttons(panel);
-			break;
-		case ROOM05:
-			break;
-		case ROOM06:
-			break;
-		case ROOM07:
-			break;
-		case ROOM08:
-			break;
-		case ROOM09:
-			break;
-		case ROOM10:
-			break;
-		default:
-			break;
-
+		ArrayList<Integer> indexArray = new ArrayList<Integer>();
+		for(Integer index : mgr.ids){
+			if(mgr.getArea(index) == 1){
+				indexArray.add(index);
+			}
 		}
+		SelectedRoom room = this.getSelectedRoom();
+		addRoomButtons(panel, indexArray, room);
 	}
 
-	private void addRoom04Buttons(JPanel panel) {
-		JButton trap1 = new JButton();
-		trap1.setMaximumSize(
-				new Dimension(Math.round((CONTENT_WIDTH * scale) / 25), Math.round((CONTENT_HEIGHT * scale) / 25)));
-		trap1.setAlignmentX(0.0f);
-		trap1.setAlignmentY(0.0f);
-		trap1.setBackground(window.trapStatusManager.getStatusColor(1));
-		panel.add(trap1);
-	}
-
-	private void addRoom01Buttons(JPanel panel) {
-		JButton trap2 = new JButton();
-		trap2.setMaximumSize(
-				new Dimension(Math.round((CONTENT_WIDTH * scale) / 25), Math.round((CONTENT_HEIGHT * scale) / 25)));
-		trap2.setBackground(window.trapStatusManager.getStatusColor(2));
-		trap2.setAlignmentX(1.0f);
-		trap2.setAlignmentY(1.0f);
-		panel.add(trap2);
+	// 0 is all rooms
+	private void addRoomButtons(JPanel panel, ArrayList<Integer> areaIndexArray, SelectedRoom roomNum) {
+		ArrayList<Integer> indexArray = new ArrayList<Integer>();
+		for(Integer index : areaIndexArray){
+			if(roomNum == SelectedRoom.ALL){
+				indexArray.add(index);
+			}
+			else {
+				if(mgr.getRoom(index) == roomNum){
+					indexArray.add(index);
+				}	
+			}
+		}
+		for(Integer index : indexArray){
+			System.out.println(index + ": button placed");
+			JButton button = new JButton();
+			button.setIcon(mgr.getStatusColor(index));
+			button.setPressedIcon(mgr.getStatusPressed(index));
+			button.setRolloverIcon(mgr.getStatusHovered(index));
+			//button.setBorder(BorderFactory.createEmptyBorder());
+			//button.setContentAreaFilled(false);
+			button.setAlignmentX(mgr.getHorizontalAlignment(index));
+			button.setAlignmentY(mgr.getVerticalAlignment(index));
+			panel.add(button);
+		}
 	}
 
 	@Override

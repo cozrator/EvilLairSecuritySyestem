@@ -20,13 +20,17 @@ public class TrapFeedScreen extends JPanel {
 	private JRadioButton listModeRB;
 	private ButtonGroup modeButtonGroup;
 	private JTextField searchField;
+	private SelectedArea selectedArea;
+	private SelectedRoom selectedRoom;
 
 	/**
 	 * Creates new form NewJPanel
 	 */
 	public TrapFeedScreen(MainWindow window) {
 		this.window = window;
-		mainContent = new TrapMapContent(window);
+		selectedArea = selectedArea.OUTSIDE;
+		selectedRoom = SelectedRoom.ALL;
+		mainContent = new TrapMapContent(window, this.selectedArea, this.selectedRoom);
 		initComponents();
 	}
 
@@ -164,6 +168,46 @@ public class TrapFeedScreen extends JPanel {
 						javax.swing.GroupLayout.PREFERRED_SIZE)));
 		
 		mainContent.setBackground(new Color(235,235,235));
+		
+		switch (selectedArea) {
+		case AREA01:
+			areaFilterCB.setSelectedIndex(1);
+			break;
+		case AREA02:
+			areaFilterCB.setSelectedIndex(2);
+			break;
+		case OUTSIDE:
+			areaFilterCB.setSelectedIndex(0);
+			break;
+		default:
+			break;
+		}
+		
+		switch (selectedRoom) {
+		case ALL:
+			areaFilterCB.setSelectedIndex(0);
+			break;
+		case ROOM01:
+			areaFilterCB.setSelectedIndex(1);
+			break;
+		case ROOM02:
+			areaFilterCB.setSelectedIndex(2);
+			break;
+		case ROOM03:
+			areaFilterCB.setSelectedIndex(3);
+			break;
+		case ROOM04:
+			areaFilterCB.setSelectedIndex(4);
+			break;
+		case ROOM05:
+			areaFilterCB.setSelectedIndex(5);
+			break;
+		case ROOM06:
+			areaFilterCB.setSelectedIndex(6);
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void areaSelected(java.awt.event.ActionEvent evt) {
@@ -174,17 +218,20 @@ public class TrapFeedScreen extends JPanel {
 				if (index == 1) {
 					((TrapMapContent) mainContent).loadImage("assets/inside1.jpg");
 					((TrapMapContent) mainContent).setSelectedArea(SelectedArea.AREA01);
+					selectedArea = SelectedArea.AREA01;
 					roomFilterCB.setModel(new javax.swing.DefaultComboBoxModel<>(
 							new String[] { "Select Room", "Room01", "Room02", "Room03", "Room04", "Room05" }));
 				} else if (index == 2) {
 					((TrapMapContent) mainContent).loadImage("assets/inside2.jpg");
 					((TrapMapContent) mainContent).setSelectedArea(SelectedArea.AREA02);
+					selectedArea = SelectedArea.AREA02;
 					roomFilterCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Room", "Room01",
 							"Room02", "Room03", "Room04", "Room05", "Room06" }));
 				}
 			} else {
 				roomFilterCB.setEnabled(false);
 				((TrapMapContent) mainContent).setSelectedArea(SelectedArea.OUTSIDE);
+				selectedArea = SelectedArea.OUTSIDE;
 				((TrapMapContent) mainContent).loadImage("assets/outside.jpg");
 			}
 			((TrapMapContent) mainContent).remake();
@@ -197,24 +244,31 @@ public class TrapFeedScreen extends JPanel {
 			switch (index) {
 			case 0:
 				((TrapContent) mainContent).setSelectedRoom(SelectedRoom.ALL);
+				selectedRoom = SelectedRoom.ALL;
 				break;
 			case 1:
 				((TrapContent) mainContent).setSelectedRoom(SelectedRoom.ROOM01);
+				selectedRoom = SelectedRoom.ROOM01;
 				break;
 			case 2:
 				((TrapContent) mainContent).setSelectedRoom(SelectedRoom.ROOM02);
+				selectedRoom = SelectedRoom.ROOM02;
 				break;
 			case 3:
 				((TrapContent) mainContent).setSelectedRoom(SelectedRoom.ROOM03);
+				selectedRoom = SelectedRoom.ROOM03;
 				break;
 			case 4:
 				((TrapContent) mainContent).setSelectedRoom(SelectedRoom.ROOM04);
+				selectedRoom = SelectedRoom.ROOM04;
 				break;
 			case 5:
 				((TrapContent) mainContent).setSelectedRoom(SelectedRoom.ROOM05);
+				selectedRoom = SelectedRoom.ROOM05;
 				break;
 			case 6:
 				((TrapContent) mainContent).setSelectedRoom(SelectedRoom.ROOM06);
+				selectedRoom = SelectedRoom.ROOM06;
 				break;
 			}
 
@@ -225,7 +279,7 @@ public class TrapFeedScreen extends JPanel {
 	private void mapModeRBActionPerformed(java.awt.event.ActionEvent evt) {
 		System.out.println("map");
 		this.remove(mainContent);
-		mainContent = new TrapMapContent(window);
+		mainContent = new TrapMapContent(window, this.selectedArea, this.selectedRoom);
 		initComponents();
 		this.validate();
 	}
@@ -233,7 +287,7 @@ public class TrapFeedScreen extends JPanel {
 	private void listModeRBActionPerformed(java.awt.event.ActionEvent evt) {
 		System.out.println("list");
 		this.remove(mainContent);
-		mainContent = new TrapListContent(window);
+		mainContent = new TrapListContent(window, this.selectedArea, this.selectedRoom);
 		initComponents();
 		mainContent.validate();
 	}
