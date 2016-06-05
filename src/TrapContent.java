@@ -1,7 +1,8 @@
 import javax.swing.JDesktopPane;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public abstract class TrapContent extends JDesktopPane {
+public abstract class TrapContent extends JPanel {
 
 	private SelectedArea selectedArea;
 	private SelectedRoom selectedRoom;

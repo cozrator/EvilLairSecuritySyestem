@@ -169,11 +169,11 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 		for(Integer index : indexArray){
 			System.out.println(index + ": button placed");
 			JButton button = new JButton();
-			button.setIcon(mgr.getStatusColor(index));
-			button.setPressedIcon(mgr.getStatusPressed(index));
-			button.setRolloverIcon(mgr.getStatusHovered(index));
-			//button.setBorder(BorderFactory.createEmptyBorder());
-			//button.setContentAreaFilled(false);
+			button.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance((int)(CONTENT_WIDTH*scale/20), (int)(CONTENT_HEIGHT*scale/20), Image.SCALE_DEFAULT)));
+			button.setPressedIcon(new ImageIcon(mgr.getStatusPressed(index).getImage().getScaledInstance((int)(CONTENT_WIDTH*scale/20), (int)(CONTENT_HEIGHT*scale/20), Image.SCALE_DEFAULT)));
+			button.setRolloverIcon(new ImageIcon(mgr.getStatusHovered(index).getImage().getScaledInstance((int)(CONTENT_WIDTH*scale/20), (int)(CONTENT_HEIGHT*scale/20), Image.SCALE_DEFAULT)));
+			button.setBorder(BorderFactory.createEmptyBorder());
+			button.setContentAreaFilled(false);
 			button.setAlignmentX(mgr.getHorizontalAlignment(index));
 			button.setAlignmentY(mgr.getVerticalAlignment(index));
 			panel.add(button);

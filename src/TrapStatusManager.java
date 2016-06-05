@@ -37,6 +37,7 @@ public class TrapStatusManager {
 			System.out.println("failed");
 		}
 		this.addTrap(1, 1, SelectedRoom.ROOM04, Status.ACTIVATED, "Flamethrower Trap", "Perfect for roasting marshmallows!", img, 0f, 0f, 3, "05/03/2016");
+		System.out.println(ids);
 	}
 
 	public void addTrap(int trapID, int areaID, SelectedRoom roomID, Status status, String name, String description, BufferedImage image, float horizontalAlignment, float verticalAlignment, int rating, String date) {
@@ -51,7 +52,7 @@ public class TrapStatusManager {
 		if(rating > 5) {
 			rating = 5;
 		}
-		if(rating < 0) {
+		else if(rating < 0) {
 			rating = 0;
 		}
 		trapRatingTable.put(trapID, rating);
@@ -61,35 +62,67 @@ public class TrapStatusManager {
 	
 	public ImageIcon getStatusColor(int i){
 		Status currentStatus = trapStatusTable.get(i);
-		ImageIcon output = new ImageIcon("orangeButton.png");
-		
+		ImageIcon output = new ImageIcon();
 		switch (currentStatus) {
 		case ACTIVATED:
-			output = new ImageIcon("greenButton.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButton.png")));
+				System.out.println("gotHere");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		case DEACTIVATED:
-			output = new ImageIcon("greyButton.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greyButton.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		case MALFUNTIONING:
-			output = new ImageIcon("redButton.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/redButton.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		default:
-			output = new ImageIcon("orangeButton.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButton.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return output;
 	}
 	
 	public ImageIcon getStatusHovered(int i){
 		Status currentStatus = trapStatusTable.get(i);
-		ImageIcon output = new ImageIcon("orangeButtonHovered.png");
+		ImageIcon output = new ImageIcon();
 		
 		switch (currentStatus) {
 		case ACTIVATED:
-			output = new ImageIcon("greenButtonHovered.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButtonHovered.png")));
+				System.out.println("gotHere");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		case DEACTIVATED:
-			output = new ImageIcon("greyButtonHovered.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greyButtonHovered.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		case MALFUNTIONING:
-			output = new ImageIcon("redButtonHovered.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/redButtonHovered.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		default:
-			output = new ImageIcon("orangeButtonHovered.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButtonHovered.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return output;
@@ -97,17 +130,34 @@ public class TrapStatusManager {
 	
 	public ImageIcon getStatusPressed(int i){
 		Status currentStatus = trapStatusTable.get(i);
-		ImageIcon output = new ImageIcon("orangeButtonPressed.png");
+		ImageIcon output = new ImageIcon();
 		
 		switch (currentStatus) {
 		case ACTIVATED:
-			output = new ImageIcon("greenButtonPressed.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButtonPressed.png")));
+				System.out.println("gotHere");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		case DEACTIVATED:
-			output = new ImageIcon("greyButtonPressed.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greyButtonPressed.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		case MALFUNTIONING:
-			output = new ImageIcon("redButtonPressed.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/redButtonPressed.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		default:
-			output = new ImageIcon("orangeButtonPressed.png");
+			try {
+				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButtonPressed.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return output;
@@ -135,17 +185,19 @@ public class TrapStatusManager {
 	
 	public JPanel getRating(int i){
 		JPanel output = new JPanel();
+		System.out.println(i);
+		System.out.println(trapRatingTable.get(i));
 		int rating = trapRatingTable.get(i);
 		FlowLayout fl = new FlowLayout();
 		output.setLayout(fl);
 		BufferedImage goldStar = null;
 		try {
-			goldStar = ImageIO.read(new File("goldStar.png"));
+			goldStar = ImageIO.read(getClass().getResourceAsStream("assets/goldStar.png"));
 		} catch (IOException e) {
 		}
 		BufferedImage greyStar = null;
 		try {
-			greyStar = ImageIO.read(new File("greyStar.png"));
+			greyStar = ImageIO.read(getClass().getResourceAsStream("assets/greyStar.png"));
 		} catch (IOException e) {
 		}
 		
@@ -169,6 +221,10 @@ public class TrapStatusManager {
 	
 	public float getVerticalAlignment(int i){
 		return trapVerticalAlignmentTable.get(i);
+	}
+	
+	public JLabel getMaintenance(int i) {
+		return new JLabel("Maintenance last performed on: " + trapMaintenanceDateTable.get(i));
 	}
 
 }

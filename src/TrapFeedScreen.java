@@ -23,18 +23,15 @@ public class TrapFeedScreen extends JPanel {
 	private SelectedArea selectedArea;
 	private SelectedRoom selectedRoom;
 
-	/**
-	 * Creates new form NewJPanel
-	 */
 	public TrapFeedScreen(MainWindow window) {
 		this.window = window;
 		selectedArea = selectedArea.OUTSIDE;
 		selectedRoom = SelectedRoom.ALL;
 		mainContent = new TrapMapContent(window, this.selectedArea, this.selectedRoom);
-		initComponents();
+		initComponents(true);
 	}
 
-	private void initComponents() {
+	private void initComponents(boolean mapMode) {
 
 		modeButtonGroup = new javax.swing.ButtonGroup();
 		headerPanel = new javax.swing.JPanel();
@@ -107,6 +104,9 @@ public class TrapFeedScreen extends JPanel {
 						.addContainerGap(14, Short.MAX_VALUE)));
 
 		modeButtonGroup.add(listModeRB);
+		if(!mapMode){
+			listModeRB.setSelected(true);
+		}
 		listModeRB.setText("ListMode");
 		listModeRB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,7 +115,9 @@ public class TrapFeedScreen extends JPanel {
 		});
 
 		modeButtonGroup.add(mapModeRB);
-		mapModeRB.setSelected(true);
+		if(mapMode){
+			mapModeRB.setSelected(true);
+		}
 		mapModeRB.setText("Map Mode");
 		mapModeRB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,7 +282,8 @@ public class TrapFeedScreen extends JPanel {
 		System.out.println("map");
 		this.remove(mainContent);
 		mainContent = new TrapMapContent(window, this.selectedArea, this.selectedRoom);
-		initComponents();
+		this.removeAll();
+		initComponents(true);
 		this.validate();
 	}
 
@@ -288,7 +291,8 @@ public class TrapFeedScreen extends JPanel {
 		System.out.println("list");
 		this.remove(mainContent);
 		mainContent = new TrapListContent(window, this.selectedArea, this.selectedRoom);
-		initComponents();
-		mainContent.validate();
+		this.removeAll();
+		initComponents(false);
+		this.validate();
 	}
 }
