@@ -125,6 +125,7 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 			addArea01Buttons(output);
 			break;
 		case AREA02:
+			addArea02Buttons(output);
 			break;
 		case OUTSIDE:
 			break;
@@ -145,7 +146,18 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 	private void addArea01Buttons(JPanel panel) {
 		ArrayList<Integer> indexArray = new ArrayList<Integer>();
 		for(Integer index : mgr.ids){
-			if(mgr.getArea(index) == 1){
+			if(mgr.getAreaNum(index) == 1){
+				indexArray.add(index);
+			}
+		}
+		SelectedRoom room = this.getSelectedRoom();
+		addRoomButtons(panel, indexArray, room);
+	}
+	
+	private void addArea02Buttons(JPanel panel) {
+		ArrayList<Integer> indexArray = new ArrayList<Integer>();
+		for(Integer index : mgr.ids){
+			if(mgr.getAreaNum(index) == 2){
 				indexArray.add(index);
 			}
 		}

@@ -136,6 +136,7 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 	private JPanel createLinkArea(){
 		JPanel linkArea = new JPanel();
 		JButton cameraButton = new JButton("Camera Feed");
+		JButton trapButton = new JButton("Trap Feed");
 		JButton areaButton = new JButton("Area Summary");
 		JButton securityButton = new JButton("Security Notifications");
 		JButton settingsButton = new JButton("Settings");
@@ -143,12 +144,15 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 		JLabel line1 = new JLabel("|");
 		JLabel line2 = new JLabel("|");
 		JLabel line3 = new JLabel("|");
+		JLabel line4 = new JLabel("|");
 		line1.setFont(subtitleFont);
 		line2.setFont(subtitleFont);
 		line3.setFont(subtitleFont);
+		line4.setFont(subtitleFont);
 		
 		//Button Initialization
 		cameraButton = createSecondaryButtons(cameraButton, "CameraFeed");
+		trapButton = createSecondaryButtons(trapButton, "TrapFeed");
 		areaButton = createSecondaryButtons(areaButton, "AreaSummary");
 		securityButton = createSecondaryButtons(securityButton, "SecurityNotifications");
 		settingsButton = createSecondaryButtons(settingsButton, "Settings");
@@ -157,10 +161,12 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 		linkArea.setLayout(layout);
 		linkArea.add(cameraButton);
 		linkArea.add(line1);
-		linkArea.add(areaButton);
+		linkArea.add(trapButton);
 		linkArea.add(line2);
-		linkArea.add(securityButton);
+		linkArea.add(areaButton);
 		linkArea.add(line3);
+		linkArea.add(securityButton);
+		linkArea.add(line4);
 		linkArea.add(settingsButton);
 		
 		return linkArea;
@@ -191,6 +197,9 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 		
 		if (e.getActionCommand().equals("CameraFeed")){
 			window.screenTransition(new MainCameraFeed(this.window));
+		}
+		else if(e.getActionCommand().equals("TrapFeed")){
+			window.screenTransition(new TrapFeedScreen(this.window));
 		}
 		else if(e.getActionCommand().equals("AreaSummary")){
 			

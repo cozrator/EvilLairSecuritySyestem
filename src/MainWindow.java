@@ -21,12 +21,14 @@ public class MainWindow {
 	JFrame frame = new JFrame();
 	JComponent currentScreen;
 	TrapStatusManager trapStatusManager = new TrapStatusManager();
+	Font titleFont = new Font("Arial", Font.BOLD, 20);
+	Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
 	
 	/**
 	 * 
 	 */
 	public MainWindow() {
-		currentScreen = new TrapFeedScreen(this);
+		currentScreen = new LogInScreen(this);
 		frame.add(currentScreen);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setTitle("Evil Lair Security System");
