@@ -1,9 +1,16 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.font.TextAttribute;
 import java.util.Map;
 
@@ -14,7 +21,7 @@ import javax.swing.border.EmptyBorder;
  * * @author Corey
  */
 @SuppressWarnings("serial")
-public class TrapFeedMasterContent extends JPanel {
+public class TrapFeedMasterContent extends JPanel implements ActionListener{
 
 	MainWindow window;
 	private JButton searchButton;
@@ -30,6 +37,7 @@ public class TrapFeedMasterContent extends JPanel {
 	private JTextField searchField;
 	private SelectedArea selectedArea;
 	private SelectedRoom selectedRoom;
+	
 	private Color primary = new Color(255,242,242);
 	private Color secondary = new Color(255,243,221);
 
@@ -39,6 +47,11 @@ public class TrapFeedMasterContent extends JPanel {
 
 	public TrapFeedMasterContent(MainWindow window) {
 		this.window = window;
+		primary = window.getPrimary();
+		secondary = window.getSecondary();
+		titleFont = window.getTitleFont();
+		subtitleFont = window.getSubtitleFont();
+		textFont = window.getTextFont();
 		selectedArea = selectedArea.OUTSIDE;
 		selectedRoom = SelectedRoom.ALL;
 		mainContent = new TrapMapContent(window, this.selectedArea, this.selectedRoom);
@@ -50,10 +63,32 @@ public class TrapFeedMasterContent extends JPanel {
 		modeButtonGroup = new javax.swing.ButtonGroup();
 		headerPanel = new javax.swing.JPanel();
 		areaFilterCB = new javax.swing.JComboBox<>();
+		areaFilterCB.setFont(textFont);
 		searchField = new javax.swing.JTextField();
+		searchField.setFont(textFont);
+		searchField.addFocusListener(new FocusListener(){
+	        @Override
+	        public void focusGained(FocusEvent e){
+	        	// clear search field when clicked.
+	        	searchField.setText("");
+	        }
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if(searchField.getText().equals("")){
+					// reset to default if empty.
+					searchField.setText("Specific ID");
+				}
+			}
+	    });
 		searchButton = new javax.swing.JButton();
+		searchButton.setActionCommand("Search");
+		searchButton.addActionListener(this);
+		searchButton.setFont(textFont);
 		filterLabel = new javax.swing.JLabel();
+		filterLabel.setFont(textFont);
 		roomFilterCB = new javax.swing.JComboBox<>();
+		roomFilterCB.setFont(textFont);
 		roomFilterCB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				roomSelected(evt);
@@ -61,7 +96,9 @@ public class TrapFeedMasterContent extends JPanel {
 		});
 		footerPanel = new javax.swing.JPanel();
 		listModeRB = new javax.swing.JRadioButton();
+		listModeRB.setFont(textFont);
 		mapModeRB = new javax.swing.JRadioButton();
+		mapModeRB.setFont(textFont);
 
 		areaFilterCB
 				.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Area", "Area01", "Area02" }));
@@ -71,7 +108,7 @@ public class TrapFeedMasterContent extends JPanel {
 			}
 		});
 
-		searchField.setText("search");
+		searchField.setText("Specific ID");
 
 		searchButton.setText("Go");
 
@@ -121,7 +158,7 @@ public class TrapFeedMasterContent extends JPanel {
 		if(!mapMode){
 			listModeRB.setSelected(true);
 		}
-		listModeRB.setText("ListMode");
+		listModeRB.setText("List Mode");
 		listModeRB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				listModeRBActionPerformed(evt);
@@ -183,7 +220,7 @@ public class TrapFeedMasterContent extends JPanel {
 						javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
 						javax.swing.GroupLayout.PREFERRED_SIZE)));
 		
-		mainContent.setBackground(new Color(235,235,235));
+		mainContent.setBackground(secondary);
 		
 		switch (selectedArea) {
 		case AREA01:
@@ -252,6 +289,7 @@ public class TrapFeedMasterContent extends JPanel {
 				}
 			} else {
 				roomFilterCB.setEnabled(false);
+				((TrapMapContent) mainContent).loadImage("assets/outside.jpg");
 				((TrapMapContent) mainContent).setSelectedArea(SelectedArea.OUTSIDE);
 				selectedArea = SelectedArea.OUTSIDE;
 			}
@@ -335,6 +373,39 @@ public class TrapFeedMasterContent extends JPanel {
 		this.removeAll();
 		initComponents(false);
 		this.validate();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent a) {
+		if(a.getActionCommand().equals("Search"))
+		{
+			for(Integer i : window.trapStatusManager.ids) {
+				if(searchField.getText().equals(i.toString())){
+					JDialog popUp = new JDialog();
+					popUp.setUndecorated(true);
+					popUp.setLayout(new BorderLayout());
+					popUp.add(new TrapCell(window, i));
+					popUp.addWindowFocusListener(new WindowFocusListener() {
+
+						@Override
+						public void windowGainedFocus(WindowEvent a) {
+						}
+
+						@Override
+						public void windowLostFocus(WindowEvent a) {
+							// when user click off of the dialog, close it.
+							popUp.dispose();	
+						}
+						
+					});
+					popUp.pack();
+					popUp.setResizable(false);
+					popUp.setLocationRelativeTo((Component) a.getSource());
+					popUp.setLocation(popUp.getX() + popUp.getWidth()/4, popUp.getY() + popUp.getHeight()/2);
+					popUp.setVisible(true);
+				}
+			}
+		}
 	}
 
 }

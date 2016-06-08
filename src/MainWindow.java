@@ -17,12 +17,18 @@ import javax.swing.WindowConstants;
  *
  */
 public class MainWindow {
-	
+
 	JFrame frame = new JFrame();
 	JComponent currentScreen;
 	TrapStatusManager trapStatusManager = new TrapStatusManager();
-	Font titleFont = new Font("Arial", Font.BOLD, 20);
-	Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
+	
+	//variables for all content colors and fonts
+	private Color primary = new Color(255,242,242);
+	private Color secondary = new Color(255,243,221);
+
+	private Font titleFont = new Font("Arial", Font.BOLD, 20);
+	private Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
+	private Font textFont = new Font("Arial", Font.PLAIN, 14);
 	
 	/**
 	 * 
@@ -55,6 +61,76 @@ public class MainWindow {
 			frame.validate();
 			frame.setVisible(true);
 		}
+	}
+	
+	/**
+	 * @return the primary color
+	 */
+	public Color getPrimary() {
+		return primary;
+	}
+
+	/**
+	 * @param primary, the Color to set as the primary color.
+	 */
+	public void setPrimary(Color primary) {
+		this.primary = primary;
+	}
+
+	/**
+	 * @return the secondary color
+	 */
+	public Color getSecondary() {
+		return secondary;
+	}
+
+	/**
+	 * @param secondary, the Color to set as the secondary color.
+	 */
+	public void setSecondary(Color secondary) {
+		this.secondary = secondary;
+	}
+
+	/**
+	 * @return the titleFont
+	 */
+	public Font getTitleFont() {
+		return titleFont;
+	}
+
+	/**
+	 * @param titleFont, the Font to set for titles
+	 */
+	public void setTitleFont(Font titleFont) {
+		this.titleFont = titleFont;
+	}
+
+	/**
+	 * @return the subtitleFont
+	 */
+	public Font getSubtitleFont() {
+		return subtitleFont;
+	}
+
+	/**
+	 * @param subtitleFont, the Font to set for the sub titles.
+	 */
+	public void setSubtitleFont(Font subtitleFont) {
+		this.subtitleFont = subtitleFont;
+	}
+
+	/**
+	 * @return the textFont
+	 */
+	public Font getTextFont() {
+		return textFont;
+	}
+
+	/**
+	 * @param textFont, the Font to set for text
+	 */
+	public void setTextFont(Font textFont) {
+		this.textFont = textFont;
 	}
 
 	public void dispose() {

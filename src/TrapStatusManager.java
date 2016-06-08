@@ -36,7 +36,7 @@ public class TrapStatusManager {
 		} catch (IOException e) {
 			System.out.println("failed");
 		}
-		this.addTrap(1, SelectedArea.AREA01, SelectedRoom.ROOM04, Status.ACTIVATED, "Flamethrower Trap", "Perfect for roasting marshmallows!", img, 0f, 0f, 4, "05/03/2016");
+		this.addTrap(1, SelectedArea.AREA01, SelectedRoom.ROOM04, Status.ACTIVATED, "Flamethrower Trap", "Perfect for roasting marshmallows!", img, 0.5f, 0.5f, 5, "05/03/2016");
 		
 		try {
 		    img = ImageIO.read(getClass().getResourceAsStream("assets/pitTrap.png"));
@@ -50,17 +50,14 @@ public class TrapStatusManager {
 		} catch (IOException e) {
 			System.out.println("failed");
 		}
-		this.addTrap(3, SelectedArea.AREA02, SelectedRoom.ROOM05, Status.MALFUNTIONING, "Pendulum Trap", "Finely chopped!", img, 0f, 0f, 1, "06/07/1996");
+		this.addTrap(3, SelectedArea.AREA02, SelectedRoom.ROOM05, Status.MALFUNTIONING, "Pendulum Trap", "Finely chopped!", img, 0.5f, 0.5f, 1, "06/07/1996");
 		
 		try {
-		    img = ImageIO.read(getClass().getResourceAsStream("assets/flame.jpg"));
+		    img = ImageIO.read(getClass().getResourceAsStream("assets/spearTrap.jpg"));
 		} catch (IOException e) {
 			System.out.println("failed");
 		}
-		this.addTrap(4, SelectedArea.AREA02, SelectedRoom.ROOM03, Status.ACTIVATED, "Flamethrower Trap", "Perfect for roasting marshmallows!", img, 0.25f, 0.25f, 4, "05/03/2016");
-		
-		
-		System.out.println("Traps: " + ids);
+		this.addTrap(4, SelectedArea.AREA02, SelectedRoom.ROOM03, Status.ACTIVATED, "Spear Trap", "Stick them full of holes!", img, 0.1f, 0.1f, 4, "09/08/2014");
 	}
 
 	public void addTrap(int trapID, SelectedArea areaID, SelectedRoom roomID, Status status, String name, String description, BufferedImage image, float horizontalAlignment, float verticalAlignment, int rating, String date) {
@@ -90,7 +87,6 @@ public class TrapStatusManager {
 		case ACTIVATED:
 			try {
 				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButton.png")));
-				System.out.println("gotHere");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -128,7 +124,6 @@ public class TrapStatusManager {
 		case ACTIVATED:
 			try {
 				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButtonHovered.png")));
-				System.out.println("gotHere");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -167,7 +162,6 @@ public class TrapStatusManager {
 		case ACTIVATED:
 			try {
 				output = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("assets/greenButtonPressed.png")));
-				System.out.println("gotHere");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -282,7 +276,6 @@ public class TrapStatusManager {
 	
 	public JPanel getRating(int i, Dimension size){
 		JPanel output = new JPanel();
-		System.out.println(i);
 		System.out.println(trapRatingTable.get(i));
 		int rating = trapRatingTable.get(i);
 		FlowLayout fl = new FlowLayout();
@@ -324,6 +317,10 @@ public class TrapStatusManager {
 	
 	public String getMaintenance(int i) {
 		return "Maintenance last performed on: " + trapMaintenanceDateTable.get(i);
+	}
+	
+	public void setStatus(Integer index, Status status){
+		this.trapStatusTable.put(index, status);
 	}
 
 }

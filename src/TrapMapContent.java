@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
-public class TrapMapContent extends TrapContent implements ChangeListener {
+public class TrapMapContent extends TrapContent implements ChangeListener, ActionListener {
 	MainWindow window;
 	TrapStatusManager mgr;
 	JSlider zoom = new JSlider(JSlider.VERTICAL);
@@ -59,7 +59,7 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 		this.setLayout(bl);
 		this.setSelectedArea(area);
 		this.setSelectedRoom(room);
-		switch(area) {
+		switch (area) {
 		case AREA01:
 			loadImage("assets/inside1.jpg");
 			break;
@@ -72,7 +72,7 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 		default:
 			loadImage("assets/outside.jpg");
 			break;
-		
+
 		}
 		content = makeUI();
 		this.add(content, BorderLayout.CENTER);
@@ -145,19 +145,19 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 
 	private void addArea01Buttons(JPanel panel) {
 		ArrayList<Integer> indexArray = new ArrayList<Integer>();
-		for(Integer index : mgr.ids){
-			if(mgr.getAreaNum(index) == 1){
+		for (Integer index : mgr.ids) {
+			if (mgr.getAreaNum(index) == 1) {
 				indexArray.add(index);
 			}
 		}
 		SelectedRoom room = this.getSelectedRoom();
 		addRoomButtons(panel, indexArray, room);
 	}
-	
+
 	private void addArea02Buttons(JPanel panel) {
 		ArrayList<Integer> indexArray = new ArrayList<Integer>();
-		for(Integer index : mgr.ids){
-			if(mgr.getAreaNum(index) == 2){
+		for (Integer index : mgr.ids) {
+			if (mgr.getAreaNum(index) == 2) {
 				indexArray.add(index);
 			}
 		}
@@ -168,26 +168,29 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 	// 0 is all rooms
 	private void addRoomButtons(JPanel panel, ArrayList<Integer> areaIndexArray, SelectedRoom roomNum) {
 		ArrayList<Integer> indexArray = new ArrayList<Integer>();
-		for(Integer index : areaIndexArray){
-			if(roomNum == SelectedRoom.ALL){
+		for (Integer index : areaIndexArray) {
+			if (roomNum == SelectedRoom.ALL) {
 				indexArray.add(index);
-			}
-			else {
-				if(mgr.getRoom(index) == roomNum){
+			} else {
+				if (mgr.getRoom(index) == roomNum) {
 					indexArray.add(index);
-				}	
+				}
 			}
 		}
-		for(Integer index : indexArray){
-			System.out.println(index + ": button placed");
+		for (Integer index : indexArray) {
 			JButton button = new JButton();
-			button.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance((int)(CONTENT_WIDTH*scale/20), (int)(CONTENT_HEIGHT*scale/20), Image.SCALE_DEFAULT)));
-			button.setPressedIcon(new ImageIcon(mgr.getStatusPressed(index).getImage().getScaledInstance((int)(CONTENT_WIDTH*scale/20), (int)(CONTENT_HEIGHT*scale/20), Image.SCALE_DEFAULT)));
-			button.setRolloverIcon(new ImageIcon(mgr.getStatusHovered(index).getImage().getScaledInstance((int)(CONTENT_WIDTH*scale/20), (int)(CONTENT_HEIGHT*scale/20), Image.SCALE_DEFAULT)));
+			button.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(
+					(int) (CONTENT_WIDTH * scale / 20), (int) (CONTENT_HEIGHT * scale / 20), Image.SCALE_DEFAULT)));
+			button.setPressedIcon(new ImageIcon(mgr.getStatusPressed(index).getImage().getScaledInstance(
+					(int) (CONTENT_WIDTH * scale / 20), (int) (CONTENT_HEIGHT * scale / 20), Image.SCALE_DEFAULT)));
+			button.setRolloverIcon(new ImageIcon(mgr.getStatusHovered(index).getImage().getScaledInstance(
+					(int) (CONTENT_WIDTH * scale / 20), (int) (CONTENT_HEIGHT * scale / 20), Image.SCALE_DEFAULT)));
 			button.setBorder(BorderFactory.createEmptyBorder());
 			button.setContentAreaFilled(false);
 			button.setAlignmentX(mgr.getHorizontalAlignment(index));
 			button.setAlignmentY(mgr.getVerticalAlignment(index));
+			button.setActionCommand("" + index);
+			button.addActionListener(this);
 			panel.add(button);
 		}
 	}
@@ -205,5 +208,38 @@ public class TrapMapContent extends TrapContent implements ChangeListener {
 		JSlider source = (JSlider) e.getSource();
 		scale = source.getValue() / 100f;
 		remake();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent a) {
+		try {
+			int index = Integer.parseInt(a.getActionCommand());
+
+			if (index > 0 && index <= mgr.ids.size()) {
+				JDialog popUp = new JDialog();
+				popUp.setUndecorated(true);
+				popUp.setLayout(new BorderLayout());
+				popUp.add(new TrapCell(window, index));
+				popUp.addWindowFocusListener(new WindowFocusListener() {
+
+					@Override
+					public void windowGainedFocus(WindowEvent a) {
+					}
+
+					@Override
+					public void windowLostFocus(WindowEvent a) {
+						// when user click off of the dialog, close it.
+						popUp.dispose();	
+					}
+					
+				});
+				popUp.pack();
+				popUp.setResizable(false);
+				popUp.setLocationRelativeTo((Component) a.getSource());
+				popUp.setVisible(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

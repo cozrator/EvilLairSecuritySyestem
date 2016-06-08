@@ -27,6 +27,11 @@ public class TrapFeedScreen extends JPanel implements ActionListener {
 
 	public TrapFeedScreen(MainWindow window) {
 		this.window = window;
+		primary = window.getPrimary();
+		secondary = window.getSecondary();
+		titleFont = window.getTitleFont();
+		subtitleFont = window.getSubtitleFont();
+		textFont = window.getTextFont();
 		this.setLayout(new BorderLayout());
 		this.add(createNorthArea(), BorderLayout.NORTH);
 		this.add(new TrapFeedMasterContent(window), BorderLayout.CENTER);
@@ -103,17 +108,12 @@ public class TrapFeedScreen extends JPanel implements ActionListener {
 	 */
 	private JPanel createSecondaryArea(){
 		JPanel secondaryArea = new JPanel();
-		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/back.png"));
-		JButton back = new JButton("Back", icon);
-		back = createSecondaryButtons(back, "Back");
-		back.setHorizontalTextPosition(JButton.RIGHT);
 
 		secondaryArea.setBackground(secondary);
 		secondaryArea.setLayout(new BorderLayout());
 		secondaryArea.setBorder(new EmptyBorder(10,20,10,20));
 		secondaryArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		secondaryArea.add(createLinkArea(), BorderLayout.WEST);
-		secondaryArea.add(back, BorderLayout.EAST);
 		return secondaryArea;
 	}
 
@@ -187,6 +187,9 @@ public class TrapFeedScreen extends JPanel implements ActionListener {
 		if (e.getActionCommand().equals("MainMenu")){
 			window.screenTransition(new MainMenuScreen(this.window));
 		}
+		else if (e.getActionCommand().equals("CameraFeed")){
+			window.screenTransition(new MainCameraFeed(this.window));
+		}
 		else if(e.getActionCommand().equals("AreaSummary")){
 
 		}
@@ -200,12 +203,7 @@ public class TrapFeedScreen extends JPanel implements ActionListener {
 		else if(e.getActionCommand().equals("LogOut")){
 			window.screenTransition(new LogInScreen(this.window));
 		}
-		else if(e.getActionCommand().equals("Back")){
-			window.screenTransition(new MainCameraFeed(this.window));
-		}
-		else if(e.getActionCommand().equals("InfaRed")){
-			System.out.println("EY");
-		}
+
 	}
 
 }

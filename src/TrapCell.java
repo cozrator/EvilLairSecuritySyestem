@@ -62,12 +62,12 @@ public class TrapCell extends TrapContent {
 
         nameLabel.setText(mgr.getName(index));
         nameLabel.setVerticalAlignment(SwingConstants.CENTER);
-        nameLabel.setFont(window.titleFont);
+        nameLabel.setFont(window.getTitleFont());
 
         maintenanceLabel.setHorizontalAlignment(SwingConstants.TRAILING);
         maintenanceLabel.setText(mgr.getMaintenance(index));
         maintenanceLabel.setVerticalAlignment(SwingConstants.CENTER);
-        maintenanceLabel.setFont(window.subtitleFont);
+        maintenanceLabel.setFont(window.getSubtitleFont());
 
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
         statusLabel.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
@@ -82,7 +82,7 @@ public class TrapCell extends TrapContent {
         }
         areaLabel.setText(prefix + areaNum);
         areaLabel.setVerticalAlignment(SwingConstants.TOP);
-        areaLabel.setFont(window.subtitleFont);
+        areaLabel.setFont(window.getSubtitleFont());
         
         prefix = "Room: ";
         int roomNum = mgr.getRoomNum(index);
@@ -91,14 +91,14 @@ public class TrapCell extends TrapContent {
         }
         roomLabel.setText(prefix + roomNum);
         roomLabel.setVerticalAlignment(SwingConstants.TOP);
-        roomLabel.setFont(window.subtitleFont);
+        roomLabel.setFont(window.getSubtitleFont());
 
         descLabel.setText(mgr.getDesc(index));
         descLabel.setVerticalAlignment(SwingConstants.TOP);
-        descLabel.setFont(window.subtitleFont);
+        descLabel.setFont(window.getSubtitleFont());
 
         moreButton.setText("MORE");
-        moreButton.setFont(window.subtitleFont);
+        moreButton.setFont(window.getTextFont());
 
         GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
