@@ -394,7 +394,7 @@ public class TrapFeedMasterContent extends JPanel implements ActionListener{
 						@Override
 						public void windowLostFocus(WindowEvent a) {
 							// when user click off of the dialog, close it.
-							popUp.dispose();	
+							//popUp.dispose();	
 						}
 						
 					});

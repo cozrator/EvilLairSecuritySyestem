@@ -21,20 +21,33 @@ public class MainWindow {
 	JFrame frame = new JFrame();
 	JComponent currentScreen;
 	TrapStatusManager trapStatusManager = new TrapStatusManager();
+	SettingsManager settingsManager = new SettingsManager();
 	
 	//variables for all content colors and fonts
-	private Color primary = new Color(255,242,242);
-	private Color secondary = new Color(255,243,221);
+	private Color primary;
+	private Color secondary;
+	
+//	private Color primary = new Color(255,242,242);
+//	private Color secondary = new Color(255,243,221);
+	
+	private Font titleFont;
+	private Font subtitleFont;
+	private Font textFont;
 
-	private Font titleFont = new Font("Arial", Font.BOLD, 20);
-	private Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
-	private Font textFont = new Font("Arial", Font.PLAIN, 14);
+//	private Font titleFont = new Font("Arial", Font.BOLD, 20);
+//	private Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
+//	private Font textFont = new Font("Arial", Font.PLAIN, 14);
 	
 	/**
 	 * 
 	 */
 	public MainWindow() {
 		currentScreen = new LogInScreen(this);
+		primary = settingsManager.getPrimary();
+		secondary = settingsManager.getSecondary();
+		titleFont = settingsManager.getTitleFont();
+		subtitleFont = settingsManager.getSubtitleFont();
+		textFont = settingsManager.getTextFont();
 		frame.add(currentScreen);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setTitle("Evil Lair Security System");
