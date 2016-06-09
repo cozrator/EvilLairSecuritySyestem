@@ -41,11 +41,11 @@ public class IndividualTrapContent extends JPanel{
 		this.window = window;
 		this.index = index;
 		this.mgr = window.trapStatusManager;
-		primary = window.getPrimary();
-		secondary = window.getSecondary();
-		titleFont = window.getTitleFont();
-		subtitleFont = window.getSubtitleFont();
-		textFont = window.getTextFont();
+		primary = window.settingsManager.getPrimary();
+		secondary = window.settingsManager.getSecondary();
+		titleFont = window.settingsManager.getTitleFont();
+		subtitleFont = window.settingsManager.getSubtitleFont();
+		textFont = window.settingsManager.getTextFont();
 		setup();
 	}
 	
@@ -61,12 +61,12 @@ public class IndividualTrapContent extends JPanel{
 	        
 	        name.setText(mgr.getName(index));
 	        name.setVerticalAlignment(SwingConstants.CENTER);
-	        name.setFont(window.getTitleFont());
+	        name.setFont(window.settingsManager.getTitleFont());
 
 	        maintenanceStatus.setHorizontalAlignment(SwingConstants.TRAILING);
 	        maintenanceStatus.setText(mgr.getMaintenance(index));
 	        maintenanceStatus.setVerticalAlignment(SwingConstants.CENTER);
-	        maintenanceStatus.setFont(window.getSubtitleFont());
+	        maintenanceStatus.setFont(window.settingsManager.getSubtitleFont());
 
 	        statusColour.setHorizontalAlignment(SwingConstants.CENTER);
 	        statusColour.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
@@ -81,7 +81,7 @@ public class IndividualTrapContent extends JPanel{
 	        }
 	        areaNumber.setText(prefix + areaNum);
 	        areaNumber.setVerticalAlignment(SwingConstants.TOP);
-	        areaNumber.setFont(window.getSubtitleFont());
+	        areaNumber.setFont(window.settingsManager.getSubtitleFont());
 	        
 	        prefix = "Room: ";
 	        int roomNum = mgr.getRoomNum(index);
@@ -90,11 +90,11 @@ public class IndividualTrapContent extends JPanel{
 	        }
 	        roomNumber.setText(prefix + roomNum);
 	        roomNumber.setVerticalAlignment(SwingConstants.TOP);
-	        roomNumber.setFont(window.getSubtitleFont());
+	        roomNumber.setFont(window.settingsManager.getSubtitleFont());
 
 	        description.setText(mgr.getDesc(index));
 	        description.setVerticalAlignment(SwingConstants.TOP);
-	        description.setFont(window.getSubtitleFont());
+	        description.setFont(window.settingsManager.getSubtitleFont());
 
 	}
 
