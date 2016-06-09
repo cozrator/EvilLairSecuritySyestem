@@ -4,66 +4,27 @@
  * and open the template in the editor.
  */
 
-/**
- *
- * @author harre002
- */
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class IndividualTrapContent extends javax.swing.JPanel{
 	MainWindow window;
 	TrapStatusManager mgr;
 	private int index;
 	
-	private JPanel headerPanel;
-	private JPanel footerPanel;
-	private JComponent mainContent;
-	
-	private Color primary = new Color(255,242,242);
-	private Color secondary = new Color(255,243,221);
-
-	private Font titleFont = new Font("Arial", Font.BOLD, 20);
-	private Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
-	private Font textFont = new Font("Arial", Font.PLAIN, 14);
-	
 	public IndividualTrapContent(MainWindow window, int index) {
 		this.window = window;
 		this.index = index;
 		this.mgr = window.trapStatusManager;
-		primary = window.settingsManager.getPrimary();
-		secondary = window.settingsManager.getSecondary();
-		titleFont = window.settingsManager.getTitleFont();
-		subtitleFont = window.settingsManager.getSubtitleFont();
-		textFont = window.settingsManager.getTextFont();
-		
-		//this.add(mainContent, BorderLayout.CENTER);
 		initComponents();
-		
 	}
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -93,16 +54,7 @@ public class IndividualTrapContent extends javax.swing.JPanel{
         image.setHorizontalAlignment(SwingConstants.CENTER);
         image.setIcon(new ImageIcon(mgr.getImage(index).getScaledInstance(400, 400, Image.SCALE_DEFAULT)));
 
-        javax.swing.GroupLayout ratingStarsLayout = new javax.swing.GroupLayout(ratingStars);
-        ratingStars.setLayout(ratingStarsLayout);
-        ratingStarsLayout.setHorizontalGroup(
-            ratingStarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
-        );
-        ratingStarsLayout.setVerticalGroup(
-            ratingStarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
-        );
+        ratingStars = mgr.getRating(index, new Dimension(40,40));
 
         maintenenceStatus.setText(mgr.getMaintenance(index));
         
@@ -170,9 +122,9 @@ public class IndividualTrapContent extends javax.swing.JPanel{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ratingStars, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(100,150,200)
+                                .addComponent(ratingStars, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(41, 41, 41))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -207,7 +159,7 @@ public class IndividualTrapContent extends javax.swing.JPanel{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ratingStars, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ratingStars, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(name))
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
