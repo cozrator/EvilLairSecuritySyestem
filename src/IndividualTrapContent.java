@@ -1,9 +1,15 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.font.TextAttribute;
+import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,8 +17,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
-public class IndividualTrapContent extends JPanel{
+public class IndividualTrapContent extends JPanel implements ActionListener{
 	MainWindow window;
 	TrapStatusManager mgr;
 	private int index;
@@ -46,8 +53,13 @@ public class IndividualTrapContent extends JPanel{
 		titleFont = window.settingsManager.getTitleFont();
 		subtitleFont = window.settingsManager.getSubtitleFont();
 		textFont = window.settingsManager.getTextFont();
+		this.setLayout(new BorderLayout());
+		this.add(createNorthArea(), BorderLayout.NORTH);
 		setup();
+
 	}
+	
+
 	
 	private void setup() {
 	        ratingStars = mgr.getRating(index, new Dimension(40,40));
@@ -96,6 +108,152 @@ public class IndividualTrapContent extends JPanel{
 	        description.setVerticalAlignment(SwingConstants.TOP);
 	        description.setFont(window.settingsManager.getSubtitleFont());
 
+	        
+	}
+	
+	
+	private JPanel createNorthArea(){
+		JPanel northArea = new JPanel();
+
+		northArea.setLayout(new BorderLayout());
+		northArea.add(createHeader(), BorderLayout.NORTH);
+		northArea.add(createSecondaryArea(), BorderLayout.SOUTH);
+		return northArea;
+	}
+
+	/**
+	 * TOP NORTH
+	 * Creates top(red) section
+	 * @return
+	 */
+	private JPanel createHeader(){
+		JPanel headerArea = new JPanel();
+
+		String titleText = "Main Camera Feed";
+		//JLabel title = new JLabel("<html><div style='text-align: center;'><div style='text-align: center;'>" + titleText + "</html>", SwingConstants.CENTER);
+		JLabel title = new JLabel(titleText);
+		title.setFont(window.settingsManager.getTextFont());
+		headerArea.setBackground(window.settingsManager.getPrimary());
+		headerArea.setLayout(new BorderLayout());
+		headerArea.setBorder(new EmptyBorder(10,20,10,20));
+
+		headerArea.add(title, BorderLayout.WEST);
+		headerArea.add(createButtonArea(), BorderLayout.EAST);
+		return headerArea;
+	}
+
+	/**
+	 * TOP NORTH
+	 * Creates buttons in top(red) left area
+	 * @return
+	 */
+	private JPanel createButtonArea(){
+		//Set underline for buttons
+		Map attributes = window.settingsManager.getTitleFont().getAttributes();
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+
+		JButton logOut = new JButton("Log Out");
+		JPanel buttonArea = new JPanel();
+
+		//Log out initializers
+		logOut.setBackground(window.settingsManager.getPrimary());
+		logOut.setOpaque(true);
+		logOut.setBorderPainted(false);
+		logOut.setFont(window.settingsManager.getTitleFont().deriveFont(attributes));
+		logOut.setForeground(Color.gray);
+		logOut.setActionCommand("LogOut");
+		logOut.addActionListener(this);
+
+		buttonArea.setBackground(window.settingsManager.getPrimary());
+		buttonArea.setLayout(new BorderLayout());
+		buttonArea.add(logOut, BorderLayout.EAST);
+
+		return buttonArea;
+	}
+
+	/**
+	 * BOTTOM NORTH
+	 * Creates bottom(yellow) of northern area
+	 * @return
+	 */
+	private JPanel createSecondaryArea(){
+		JPanel secondaryArea = new JPanel();
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/back.png"));
+		JButton back = new JButton("Back", icon);
+		back = createSecondaryButtons(back, "Back");
+		back.setHorizontalTextPosition(JButton.RIGHT);
+
+		secondaryArea.setBackground(window.settingsManager.getSecondary());
+		secondaryArea.setLayout(new BorderLayout());
+		secondaryArea.setBorder(new EmptyBorder(10,20,10,20));
+		secondaryArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		secondaryArea.add(createLinkArea(), BorderLayout.WEST);
+		secondaryArea.add(back, BorderLayout.EAST);
+		return secondaryArea;
+	}
+
+	/**
+	 * BOTTOM NORTH
+	 * Creates the links in the bottom(yellow) west section
+	 * @return
+	 */
+	private JPanel createLinkArea(){
+		JPanel linkArea = new JPanel();
+		JButton menuButton = new JButton("Main Menu");
+		JButton areaButton = new JButton("Area Summary");
+		JButton securityButton = new JButton("Security Notifications");
+		JButton settingsButton = new JButton("Settings");
+		FlowLayout layout = new FlowLayout();
+		JLabel line1 = new JLabel("|");
+		JLabel line2 = new JLabel("|");
+		JLabel line3 = new JLabel("|");
+		line1.setFont(window.settingsManager.getSubtitleFont());
+		line2.setFont(window.settingsManager.getSubtitleFont());
+		line3.setFont(window.settingsManager.getSubtitleFont());
+
+		//Button Initialization
+		menuButton = createSecondaryButtons(menuButton, "MainMenu");
+		areaButton = createSecondaryButtons(areaButton, "AreaSummary");
+		securityButton = createSecondaryButtons(securityButton, "SecurityNotifications");
+		settingsButton = createSecondaryButtons(settingsButton, "Settings");
+
+		linkArea.setBackground(window.settingsManager.getSecondary());
+		linkArea.setLayout(layout);
+		linkArea.add(menuButton);
+		linkArea.add(line1);
+		linkArea.add(areaButton);
+		linkArea.add(line2);
+		linkArea.add(securityButton);
+		linkArea.add(line3);
+		linkArea.add(settingsButton);
+
+		return linkArea;
+	}
+
+	/**
+	 * BOTTOM NORTH
+	 * Initializes buttons for createLinkArea()
+	 * @param button
+	 * @param txt
+	 * @return
+	 */
+	private JButton createSecondaryButtons(JButton button, String txt){
+		Map attributes = window.settingsManager.getSubtitleFont().getAttributes();
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		button.setBackground(window.settingsManager.getSecondary());
+		button.setOpaque(true);
+		button.setBorderPainted(false);
+		button.setFont(window.settingsManager.getSubtitleFont().deriveFont(attributes));
+		button.setForeground(Color.black);
+		button.setActionCommand(txt);
+		button.addActionListener(this);
+		return button;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
