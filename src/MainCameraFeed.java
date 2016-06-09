@@ -44,12 +44,6 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 	int count = 1;
 	int num = 0;
 	
-	private Color primary = new Color(255,242,242);
-	private Color secondary = new Color(255,243,221);
-	
-	private Font titleFont = new Font("Arial", Font.BOLD, 20);
-	private Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
-	
 	public MainCameraFeed(MainWindow window){
 		this.window = window;
 		
@@ -101,8 +95,8 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 		String titleText = "Main Camera Feed";
 		//JLabel title = new JLabel("<html><div style='text-align: center;'><div style='text-align: center;'>" + titleText + "</html>", SwingConstants.CENTER);
 		JLabel title = new JLabel(titleText);
-		title.setFont(titleFont);
-		headerArea.setBackground(primary);
+		title.setFont(window.getTitleFont());
+		headerArea.setBackground(window.getPrimary());
 		headerArea.setLayout(new BorderLayout());
 		headerArea.setBorder(new EmptyBorder(10,20,10,20));
 	
@@ -118,22 +112,22 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 	 */
 	private JPanel createButtonArea(){
 		//Set underline for buttons
-		Map attributes = titleFont.getAttributes();
+		Map attributes = window.getTitleFont().getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		
 		JButton logOut = new JButton("Log Out");
 		JPanel buttonArea = new JPanel();
 		
 		//Log out initializers
-		logOut.setBackground(primary);
+		logOut.setBackground(window.getPrimary());
 		logOut.setOpaque(true);
 		logOut.setBorderPainted(false);
-		logOut.setFont(titleFont.deriveFont(attributes));
+		logOut.setFont(window.getTitleFont().deriveFont(attributes));
 		logOut.setForeground(Color.gray);
 		logOut.setActionCommand("LogOut");
 		logOut.addActionListener(this);
 		
-		buttonArea.setBackground(primary);
+		buttonArea.setBackground(window.getPrimary());
 		buttonArea.setLayout(new BorderLayout());
 		buttonArea.add(logOut, BorderLayout.EAST);
 		
@@ -148,7 +142,7 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 	private JPanel createSecondaryArea(){
 		JPanel secondaryArea = new JPanel();
 
-		secondaryArea.setBackground(secondary);
+		secondaryArea.setBackground(window.getSecondary());
 		secondaryArea.setLayout(new BorderLayout());
 		secondaryArea.setBorder(new EmptyBorder(10,20,10,20));
 		secondaryArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -171,9 +165,9 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 		JLabel line1 = new JLabel("|");
 		JLabel line2 = new JLabel("|");
 		JLabel line3 = new JLabel("|");
-		line1.setFont(subtitleFont);
-		line2.setFont(subtitleFont);
-		line3.setFont(subtitleFont);
+		line1.setFont(window.getSubtitleFont());
+		line2.setFont(window.getSubtitleFont());
+		line3.setFont(window.getSubtitleFont());
 		
 		//Button Initialization
 		menuButton = createSecondaryButtons(menuButton, "MainMenu");
@@ -181,7 +175,7 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 		securityButton = createSecondaryButtons(securityButton, "SecurityNotifications");
 		settingsButton = createSecondaryButtons(settingsButton, "Settings");
 		
-		linkArea.setBackground(secondary);
+		linkArea.setBackground(window.getSecondary());
 		linkArea.setLayout(layout);
 		linkArea.add(menuButton);
 		linkArea.add(line1);
@@ -202,12 +196,12 @@ public class MainCameraFeed extends JPanel implements ActionListener, MouseListe
 	 * @return
 	 */
 	private JButton createSecondaryButtons(JButton button, String txt){
-		Map attributes = subtitleFont.getAttributes();
+		Map attributes = window.getSubtitleFont().getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		button.setBackground(secondary);
+		button.setBackground(window.getSecondary());
 		button.setOpaque(true);
 		button.setBorderPainted(false);
-		button.setFont(subtitleFont.deriveFont(attributes));
+		button.setFont(window.getSubtitleFont().deriveFont(attributes));
 		button.setForeground(Color.black);
 		button.setActionCommand(txt);
 		button.addActionListener(this);

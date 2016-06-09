@@ -27,14 +27,7 @@ import javax.swing.border.EmptyBorder;
  */
 public class IndividualCameraFeed extends JPanel implements ActionListener{
 	MainWindow window;
-
-	private Color primary = new Color(255,242,242);
-	private Color secondary = new Color(255,243,221);
-
-	private Font titleFont = new Font("Arial", Font.BOLD, 20);
-	private Font subtitleFont = new Font("Arial", Font.PLAIN, 18);
-	private Font textFont = new Font("Arial", Font.PLAIN, 14);
-
+	
 	JCheckBox toggleLockdown;
 	JCheckBox toggleInfaRed;
 	JCheckBox toggleNightVision;
@@ -113,22 +106,14 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	private JPanel createInfoArea(int population, boolean inLockdown){
 		JPanel infoArea = new JPanel();
 		GridLayout gl = new GridLayout (0,1);
-		String lockDown = "";
+		
 
 		gl.setVgap(20);
-
-		if (inLockdown == true){
-			lockDown = "Yes";
-		}
-		else if(inLockdown == false){
-			lockDown = "No";
-		}
 
 		infoArea.setBackground(Color.white);
 		infoArea.setBorder(new EmptyBorder(50,20,50,20));
 		infoArea.setLayout(gl);
 		infoArea.add(createTextArea("Population in Room: " + population));
-		infoArea.add(createTextArea("Lockdown in Effect: " + lockDown));
 
 		return infoArea;
 	}
@@ -151,15 +136,15 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 
 		//Initialize Text Areas
 		lockdownLbl.setBackground(Color.WHITE);
-		lockdownLbl.setFont(textFont);
+		lockdownLbl.setFont(window.getTextFont());
 		lockdownLbl.setBorder(null);
 
 		infaRedLbl.setBackground(Color.WHITE);
-		infaRedLbl.setFont(textFont);
+		infaRedLbl.setFont(window.getTextFont());
 		infaRedLbl.setBorder(null);
 
 		nightVisionLbl.setBackground(Color.WHITE);
-		nightVisionLbl.setFont(textFont);
+		nightVisionLbl.setFont(window.getTextFont());
 		nightVisionLbl.setBorder(null);
 
 		//Initialize Checkboxes
@@ -324,7 +309,7 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	private JTextField createTextArea(String txt){
 		JTextField txtArea = new JTextField();
 		txtArea.setBackground(Color.WHITE);
-		txtArea.setFont(textFont);
+		txtArea.setFont(window.getTextFont());
 		txtArea.setText(txt);
 		txtArea.setEditable(false);
 		txtArea.setBorder(null);
@@ -376,8 +361,8 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		String titleText = "Main Camera Feed";
 		//JLabel title = new JLabel("<html><div style='text-align: center;'><div style='text-align: center;'>" + titleText + "</html>", SwingConstants.CENTER);
 		JLabel title = new JLabel(titleText);
-		title.setFont(titleFont);
-		headerArea.setBackground(primary);
+		title.setFont(window.getTextFont());
+		headerArea.setBackground(window.getPrimary());
 		headerArea.setLayout(new BorderLayout());
 		headerArea.setBorder(new EmptyBorder(10,20,10,20));
 
@@ -393,22 +378,22 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	 */
 	private JPanel createButtonArea(){
 		//Set underline for buttons
-		Map attributes = titleFont.getAttributes();
+		Map attributes = window.getTitleFont().getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 
 		JButton logOut = new JButton("Log Out");
 		JPanel buttonArea = new JPanel();
 
 		//Log out initializers
-		logOut.setBackground(primary);
+		logOut.setBackground(window.getPrimary());
 		logOut.setOpaque(true);
 		logOut.setBorderPainted(false);
-		logOut.setFont(titleFont.deriveFont(attributes));
+		logOut.setFont(window.getTitleFont().deriveFont(attributes));
 		logOut.setForeground(Color.gray);
 		logOut.setActionCommand("LogOut");
 		logOut.addActionListener(this);
 
-		buttonArea.setBackground(primary);
+		buttonArea.setBackground(window.getPrimary());
 		buttonArea.setLayout(new BorderLayout());
 		buttonArea.add(logOut, BorderLayout.EAST);
 
@@ -427,7 +412,7 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		back = createSecondaryButtons(back, "Back");
 		back.setHorizontalTextPosition(JButton.RIGHT);
 
-		secondaryArea.setBackground(secondary);
+		secondaryArea.setBackground(window.getSecondary());
 		secondaryArea.setLayout(new BorderLayout());
 		secondaryArea.setBorder(new EmptyBorder(10,20,10,20));
 		secondaryArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -451,9 +436,9 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		JLabel line1 = new JLabel("|");
 		JLabel line2 = new JLabel("|");
 		JLabel line3 = new JLabel("|");
-		line1.setFont(subtitleFont);
-		line2.setFont(subtitleFont);
-		line3.setFont(subtitleFont);
+		line1.setFont(window.getSubtitleFont());
+		line2.setFont(window.getSubtitleFont());
+		line3.setFont(window.getSubtitleFont());
 
 		//Button Initialization
 		menuButton = createSecondaryButtons(menuButton, "MainMenu");
@@ -461,7 +446,7 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		securityButton = createSecondaryButtons(securityButton, "SecurityNotifications");
 		settingsButton = createSecondaryButtons(settingsButton, "Settings");
 
-		linkArea.setBackground(secondary);
+		linkArea.setBackground(window.getSecondary());
 		linkArea.setLayout(layout);
 		linkArea.add(menuButton);
 		linkArea.add(line1);
@@ -482,12 +467,12 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	 * @return
 	 */
 	private JButton createSecondaryButtons(JButton button, String txt){
-		Map attributes = subtitleFont.getAttributes();
+		Map attributes = window.getSubtitleFont().getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		button.setBackground(secondary);
+		button.setBackground(window.getSecondary());
 		button.setOpaque(true);
 		button.setBorderPainted(false);
-		button.setFont(subtitleFont.deriveFont(attributes));
+		button.setFont(window.getSubtitleFont().deriveFont(attributes));
 		button.setForeground(Color.black);
 		button.setActionCommand(txt);
 		button.addActionListener(this);
