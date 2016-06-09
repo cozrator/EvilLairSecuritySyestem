@@ -1,3 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author harre002
+ */
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,10 +26,11 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class IndividualTrapContent extends JPanel implements ActionListener{
+public class IndividualTrapContent extends javax.swing.JPanel{
 	MainWindow window;
 	TrapStatusManager mgr;
 	private int index;
@@ -27,15 +38,6 @@ public class IndividualTrapContent extends JPanel implements ActionListener{
 	private JPanel headerPanel;
 	private JPanel footerPanel;
 	private JComponent mainContent;
-	
-	private JLabel areaNumber;
-    private JLabel description;
-    private JLabel image;
-    private JLabel maintenanceStatus;
-    private JLabel name;
-    private JPanel ratingStars;
-    private JLabel roomNumber;
-    private JLabel statusColour;
 	
 	private Color primary = new Color(255,242,242);
 	private Color secondary = new Color(255,243,221);
@@ -53,207 +55,199 @@ public class IndividualTrapContent extends JPanel implements ActionListener{
 		titleFont = window.settingsManager.getTitleFont();
 		subtitleFont = window.settingsManager.getSubtitleFont();
 		textFont = window.settingsManager.getTextFont();
-		this.setLayout(new BorderLayout());
-		this.add(createNorthArea(), BorderLayout.NORTH);
-		setup();
-
-	}
-	
-
-	
-	private void setup() {
-	        ratingStars = mgr.getRating(index, new Dimension(40,40));
-	        name = new JLabel();
-	        maintenanceStatus = new JLabel();
-	        statusColour = new JLabel();
-	        image = new JLabel();
-	        areaNumber = new JLabel();
-	        roomNumber = new JLabel();
-	        description = new JLabel();
-	        
-	        name.setText(mgr.getName(index));
-	        name.setVerticalAlignment(SwingConstants.CENTER);
-	        name.setFont(window.settingsManager.getTitleFont());
-
-	        maintenanceStatus.setHorizontalAlignment(SwingConstants.TRAILING);
-	        maintenanceStatus.setText(mgr.getMaintenance(index));
-	        maintenanceStatus.setVerticalAlignment(SwingConstants.CENTER);
-	        maintenanceStatus.setFont(window.settingsManager.getSubtitleFont());
-
-	        statusColour.setHorizontalAlignment(SwingConstants.CENTER);
-	        statusColour.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
-
-	        image.setHorizontalAlignment(SwingConstants.CENTER);
-	        image.setIcon(new ImageIcon(mgr.getImage(index).getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
-
-	        String prefix = "Area: ";
-	        int areaNum = mgr.getAreaNum(index);
-	        if (areaNum < 10){
-	        	prefix = prefix + "0";
-	        }
-	        areaNumber.setText(prefix + areaNum);
-	        areaNumber.setVerticalAlignment(SwingConstants.TOP);
-	        areaNumber.setFont(window.settingsManager.getSubtitleFont());
-	        
-	        prefix = "Room: ";
-	        int roomNum = mgr.getRoomNum(index);
-	        if (roomNum < 10){
-	        	prefix = prefix + "0";
-	        }
-	        roomNumber.setText(prefix + roomNum);
-	        roomNumber.setVerticalAlignment(SwingConstants.TOP);
-	        roomNumber.setFont(window.settingsManager.getSubtitleFont());
-
-	        description.setText(mgr.getDesc(index));
-	        description.setVerticalAlignment(SwingConstants.TOP);
-	        description.setFont(window.settingsManager.getSubtitleFont());
-
-	        
-	}
-	
-	
-	private JPanel createNorthArea(){
-		JPanel northArea = new JPanel();
-
-		northArea.setLayout(new BorderLayout());
-		northArea.add(createHeader(), BorderLayout.NORTH);
-		northArea.add(createSecondaryArea(), BorderLayout.SOUTH);
-		return northArea;
-	}
-
-	/**
-	 * TOP NORTH
-	 * Creates top(red) section
-	 * @return
-	 */
-	private JPanel createHeader(){
-		JPanel headerArea = new JPanel();
-
-		String titleText = "Main Camera Feed";
-		//JLabel title = new JLabel("<html><div style='text-align: center;'><div style='text-align: center;'>" + titleText + "</html>", SwingConstants.CENTER);
-		JLabel title = new JLabel(titleText);
-		title.setFont(window.settingsManager.getTextFont());
-		headerArea.setBackground(window.settingsManager.getPrimary());
-		headerArea.setLayout(new BorderLayout());
-		headerArea.setBorder(new EmptyBorder(10,20,10,20));
-
-		headerArea.add(title, BorderLayout.WEST);
-		headerArea.add(createButtonArea(), BorderLayout.EAST);
-		return headerArea;
-	}
-
-	/**
-	 * TOP NORTH
-	 * Creates buttons in top(red) left area
-	 * @return
-	 */
-	private JPanel createButtonArea(){
-		//Set underline for buttons
-		Map attributes = window.settingsManager.getTitleFont().getAttributes();
-		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-
-		JButton logOut = new JButton("Log Out");
-		JPanel buttonArea = new JPanel();
-
-		//Log out initializers
-		logOut.setBackground(window.settingsManager.getPrimary());
-		logOut.setOpaque(true);
-		logOut.setBorderPainted(false);
-		logOut.setFont(window.settingsManager.getTitleFont().deriveFont(attributes));
-		logOut.setForeground(Color.gray);
-		logOut.setActionCommand("LogOut");
-		logOut.addActionListener(this);
-
-		buttonArea.setBackground(window.settingsManager.getPrimary());
-		buttonArea.setLayout(new BorderLayout());
-		buttonArea.add(logOut, BorderLayout.EAST);
-
-		return buttonArea;
-	}
-
-	/**
-	 * BOTTOM NORTH
-	 * Creates bottom(yellow) of northern area
-	 * @return
-	 */
-	private JPanel createSecondaryArea(){
-		JPanel secondaryArea = new JPanel();
-		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/back.png"));
-		JButton back = new JButton("Back", icon);
-		back = createSecondaryButtons(back, "Back");
-		back.setHorizontalTextPosition(JButton.RIGHT);
-
-		secondaryArea.setBackground(window.settingsManager.getSecondary());
-		secondaryArea.setLayout(new BorderLayout());
-		secondaryArea.setBorder(new EmptyBorder(10,20,10,20));
-		secondaryArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		secondaryArea.add(createLinkArea(), BorderLayout.WEST);
-		secondaryArea.add(back, BorderLayout.EAST);
-		return secondaryArea;
-	}
-
-	/**
-	 * BOTTOM NORTH
-	 * Creates the links in the bottom(yellow) west section
-	 * @return
-	 */
-	private JPanel createLinkArea(){
-		JPanel linkArea = new JPanel();
-		JButton menuButton = new JButton("Main Menu");
-		JButton areaButton = new JButton("Area Summary");
-		JButton securityButton = new JButton("Security Notifications");
-		JButton settingsButton = new JButton("Settings");
-		FlowLayout layout = new FlowLayout();
-		JLabel line1 = new JLabel("|");
-		JLabel line2 = new JLabel("|");
-		JLabel line3 = new JLabel("|");
-		line1.setFont(window.settingsManager.getSubtitleFont());
-		line2.setFont(window.settingsManager.getSubtitleFont());
-		line3.setFont(window.settingsManager.getSubtitleFont());
-
-		//Button Initialization
-		menuButton = createSecondaryButtons(menuButton, "MainMenu");
-		areaButton = createSecondaryButtons(areaButton, "AreaSummary");
-		securityButton = createSecondaryButtons(securityButton, "SecurityNotifications");
-		settingsButton = createSecondaryButtons(settingsButton, "Settings");
-
-		linkArea.setBackground(window.settingsManager.getSecondary());
-		linkArea.setLayout(layout);
-		linkArea.add(menuButton);
-		linkArea.add(line1);
-		linkArea.add(areaButton);
-		linkArea.add(line2);
-		linkArea.add(securityButton);
-		linkArea.add(line3);
-		linkArea.add(settingsButton);
-
-		return linkArea;
-	}
-
-	/**
-	 * BOTTOM NORTH
-	 * Initializes buttons for createLinkArea()
-	 * @param button
-	 * @param txt
-	 * @return
-	 */
-	private JButton createSecondaryButtons(JButton button, String txt){
-		Map attributes = window.settingsManager.getSubtitleFont().getAttributes();
-		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		button.setBackground(window.settingsManager.getSecondary());
-		button.setOpaque(true);
-		button.setBorderPainted(false);
-		button.setFont(window.settingsManager.getSubtitleFont().deriveFont(attributes));
-		button.setForeground(Color.black);
-		button.setActionCommand(txt);
-		button.addActionListener(this);
-		return button;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		//this.add(mainContent, BorderLayout.CENTER);
+		initComponents();
 		
 	}
+    //@SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        name = new javax.swing.JLabel();
+        image = new javax.swing.JLabel();
+        ratingStars = new javax.swing.JPanel();
+        maintenenceStatus = new javax.swing.JLabel();
+        statusColour = new javax.swing.JLabel();
+        areaNumber = new javax.swing.JLabel();
+        roomNumber = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        description = new javax.swing.JTextArea();
+        MaintenanceReqBtn = new javax.swing.JButton();
+        ToggleArmed = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        mapPanel = new javax.swing.JLabel();
+
+        name.setText(mgr.getName(index));
+        name.setVerticalAlignment(SwingConstants.CENTER);
+        name.setFont(window.settingsManager.getTitleFont());
+
+        image.setHorizontalAlignment(SwingConstants.CENTER);
+        image.setIcon(new ImageIcon(mgr.getImage(index).getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
+
+        javax.swing.GroupLayout ratingStarsLayout = new javax.swing.GroupLayout(ratingStars);
+        ratingStars.setLayout(ratingStarsLayout);
+        ratingStarsLayout.setHorizontalGroup(
+            ratingStarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
+        );
+        ratingStarsLayout.setVerticalGroup(
+            ratingStarsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+
+        maintenenceStatus.setText("maintenence status");
+
+        statusColour.setText("indicator");
+
+        String prefix = "Area: ";
+        int areaNum = mgr.getAreaNum(index);
+        if (areaNum < 10){
+        	prefix = prefix + "0";
+        }
+        areaNumber.setText(prefix + areaNum);
+        areaNumber.setVerticalAlignment(SwingConstants.TOP);
+        areaNumber.setFont(window.settingsManager.getSubtitleFont());
+
+        prefix = "Room: ";
+        int roomNum = mgr.getRoomNum(index);
+        if (roomNum < 10){
+        	prefix = prefix + "0";
+        }
+        roomNumber.setText(prefix + roomNum);
+        roomNumber.setVerticalAlignment(SwingConstants.TOP);
+        roomNumber.setFont(window.settingsManager.getSubtitleFont());
+
+        description.setText(mgr.getDesc(index));
+        description.setFont(window.settingsManager.getSubtitleFont());
+        description.setColumns(20);
+        description.setRows(5);
+        jScrollPane1.setViewportView(description);
+
+        MaintenanceReqBtn.setText("Maintenance request");
+        MaintenanceReqBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MaintenanceReqBtnActionPerformed(evt);
+            }
+        });
+
+        ToggleArmed.setText("Arm");
+        ToggleArmed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ToggleArmedActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        mapPanel.setText("Map");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(areaNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(roomNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(111, 111, 111)
+                                        .addComponent(ratingStars, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(MaintenanceReqBtn)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(maintenenceStatus))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(statusColour, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ToggleArmed, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addGap(21, 21, 21))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ratingStars, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(maintenenceStatus)
+                            .addComponent(MaintenanceReqBtn)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(areaNumber)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(roomNumber)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ToggleArmed, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(statusColour, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(161, 161, 161))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void MaintenanceReqBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaintenanceReqBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MaintenanceReqBtnActionPerformed
+
+    private void ToggleArmedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToggleArmedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ToggleArmedActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton MaintenanceReqBtn;
+    private javax.swing.JToggleButton ToggleArmed;
+    private javax.swing.JLabel areaNumber;
+    private javax.swing.JTextArea description;
+    private javax.swing.JLabel image;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel maintenenceStatus;
+    private javax.swing.JLabel mapPanel;
+    private javax.swing.JLabel name;
+    private javax.swing.JPanel ratingStars;
+    private javax.swing.JLabel roomNumber;
+    private javax.swing.JLabel statusColour;
+    // End of variables declaration//GEN-END:variables
 
 }
