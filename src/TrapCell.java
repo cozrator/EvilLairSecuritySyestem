@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+
 import javax.swing.*;
 
 /**
@@ -99,6 +101,12 @@ public class TrapCell extends TrapContent {
 
         moreButton.setText("MORE");
         moreButton.setFont(window.settingsManager.getTextFont());
+        //Implements an ActionListener to the button.
+        moreButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MoreButtonClicked(evt);
+            }
+        });
 
         GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
@@ -164,5 +172,14 @@ public class TrapCell extends TrapContent {
                     .addComponent(contentPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-    }                 
+    }
+    /***
+     * 
+     * @author harre002
+     * Changes screen to corresponding individual one when button is clicked
+     * @param evt - Button Click ActionEvent
+     */
+	protected void MoreButtonClicked(ActionEvent evt) {
+		window.screenTransition(new IndividualTrapScreen(this.window, index));
+	}                 
 }
