@@ -38,6 +38,8 @@ public class TrapFeedMasterContent extends JPanel implements ActionListener{
 	private SelectedArea selectedArea;
 	private SelectedRoom selectedRoom;
 	
+	JDialog popUp;
+	
 	private Color primary = new Color(255,242,242);
 	private Color secondary = new Color(255,243,221);
 
@@ -47,12 +49,12 @@ public class TrapFeedMasterContent extends JPanel implements ActionListener{
 
 	public TrapFeedMasterContent(MainWindow window) {
 		this.window = window;
-		primary = window.getPrimary();
-		secondary = window.getSecondary();
-		titleFont = window.getTitleFont();
-		subtitleFont = window.getSubtitleFont();
-		textFont = window.getTextFont();
-		selectedArea = selectedArea.OUTSIDE;
+		primary = window.settingsManager.getPrimary();
+		secondary = window.settingsManager.getSecondary();
+		titleFont = window.settingsManager.getTitleFont();
+		subtitleFont = window.settingsManager.getSubtitleFont();
+		textFont = window.settingsManager.getTextFont();
+		selectedArea = SelectedArea.OUTSIDE;
 		selectedRoom = SelectedRoom.ALL;
 		mainContent = new TrapMapContent(window, this.selectedArea, this.selectedRoom);
 		initComponents(true);
@@ -381,7 +383,7 @@ public class TrapFeedMasterContent extends JPanel implements ActionListener{
 		{
 			for(Integer i : window.trapStatusManager.ids) {
 				if(searchField.getText().equals(i.toString())){
-					JDialog popUp = new JDialog();
+					popUp = new JDialog();
 					popUp.setUndecorated(true);
 					popUp.setLayout(new BorderLayout());
 					popUp.add(new TrapCell(window, i));
@@ -394,7 +396,7 @@ public class TrapFeedMasterContent extends JPanel implements ActionListener{
 						@Override
 						public void windowLostFocus(WindowEvent a) {
 							// when user click off of the dialog, close it.
-							//popUp.dispose();	
+							popUp.dispose();	
 						}
 						
 					});

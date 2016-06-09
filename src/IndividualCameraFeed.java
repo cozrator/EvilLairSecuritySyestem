@@ -136,15 +136,15 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 
 		//Initialize Text Areas
 		lockdownLbl.setBackground(Color.WHITE);
-		lockdownLbl.setFont(window.getTextFont());
+		lockdownLbl.setFont(window.settingsManager.getTextFont());
 		lockdownLbl.setBorder(null);
 
 		infaRedLbl.setBackground(Color.WHITE);
-		infaRedLbl.setFont(window.getTextFont());
+		infaRedLbl.setFont(window.settingsManager.getTextFont());
 		infaRedLbl.setBorder(null);
 
 		nightVisionLbl.setBackground(Color.WHITE);
-		nightVisionLbl.setFont(window.getTextFont());
+		nightVisionLbl.setFont(window.settingsManager.getTextFont());
 		nightVisionLbl.setBorder(null);
 
 		//Initialize Checkboxes
@@ -309,7 +309,7 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	private JTextField createTextArea(String txt){
 		JTextField txtArea = new JTextField();
 		txtArea.setBackground(Color.WHITE);
-		txtArea.setFont(window.getTextFont());
+		txtArea.setFont(window.settingsManager.getTextFont());
 		txtArea.setText(txt);
 		txtArea.setEditable(false);
 		txtArea.setBorder(null);
@@ -361,8 +361,8 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		String titleText = "Main Camera Feed";
 		//JLabel title = new JLabel("<html><div style='text-align: center;'><div style='text-align: center;'>" + titleText + "</html>", SwingConstants.CENTER);
 		JLabel title = new JLabel(titleText);
-		title.setFont(window.getTextFont());
-		headerArea.setBackground(window.getPrimary());
+		title.setFont(window.settingsManager.getTextFont());
+		headerArea.setBackground(window.settingsManager.getPrimary());
 		headerArea.setLayout(new BorderLayout());
 		headerArea.setBorder(new EmptyBorder(10,20,10,20));
 
@@ -378,22 +378,22 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	 */
 	private JPanel createButtonArea(){
 		//Set underline for buttons
-		Map attributes = window.getTitleFont().getAttributes();
+		Map attributes = window.settingsManager.getTitleFont().getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 
 		JButton logOut = new JButton("Log Out");
 		JPanel buttonArea = new JPanel();
 
 		//Log out initializers
-		logOut.setBackground(window.getPrimary());
+		logOut.setBackground(window.settingsManager.getPrimary());
 		logOut.setOpaque(true);
 		logOut.setBorderPainted(false);
-		logOut.setFont(window.getTitleFont().deriveFont(attributes));
+		logOut.setFont(window.settingsManager.getTitleFont().deriveFont(attributes));
 		logOut.setForeground(Color.gray);
 		logOut.setActionCommand("LogOut");
 		logOut.addActionListener(this);
 
-		buttonArea.setBackground(window.getPrimary());
+		buttonArea.setBackground(window.settingsManager.getPrimary());
 		buttonArea.setLayout(new BorderLayout());
 		buttonArea.add(logOut, BorderLayout.EAST);
 
@@ -412,7 +412,7 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		back = createSecondaryButtons(back, "Back");
 		back.setHorizontalTextPosition(JButton.RIGHT);
 
-		secondaryArea.setBackground(window.getSecondary());
+		secondaryArea.setBackground(window.settingsManager.getSecondary());
 		secondaryArea.setLayout(new BorderLayout());
 		secondaryArea.setBorder(new EmptyBorder(10,20,10,20));
 		secondaryArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -436,9 +436,9 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		JLabel line1 = new JLabel("|");
 		JLabel line2 = new JLabel("|");
 		JLabel line3 = new JLabel("|");
-		line1.setFont(window.getSubtitleFont());
-		line2.setFont(window.getSubtitleFont());
-		line3.setFont(window.getSubtitleFont());
+		line1.setFont(window.settingsManager.getSubtitleFont());
+		line2.setFont(window.settingsManager.getSubtitleFont());
+		line3.setFont(window.settingsManager.getSubtitleFont());
 
 		//Button Initialization
 		menuButton = createSecondaryButtons(menuButton, "MainMenu");
@@ -446,7 +446,7 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		securityButton = createSecondaryButtons(securityButton, "SecurityNotifications");
 		settingsButton = createSecondaryButtons(settingsButton, "Settings");
 
-		linkArea.setBackground(window.getSecondary());
+		linkArea.setBackground(window.settingsManager.getSecondary());
 		linkArea.setLayout(layout);
 		linkArea.add(menuButton);
 		linkArea.add(line1);
@@ -467,12 +467,12 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 	 * @return
 	 */
 	private JButton createSecondaryButtons(JButton button, String txt){
-		Map attributes = window.getSubtitleFont().getAttributes();
+		Map attributes = window.settingsManager.getSubtitleFont().getAttributes();
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		button.setBackground(window.getSecondary());
+		button.setBackground(window.settingsManager.getSecondary());
 		button.setOpaque(true);
 		button.setBorderPainted(false);
-		button.setFont(window.getSubtitleFont().deriveFont(attributes));
+		button.setFont(window.settingsManager.getSubtitleFont().deriveFont(attributes));
 		button.setForeground(Color.black);
 		button.setActionCommand(txt);
 		button.addActionListener(this);

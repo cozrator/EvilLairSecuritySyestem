@@ -27,11 +27,11 @@ public class TrapFeedScreen extends JPanel implements ActionListener {
 
 	public TrapFeedScreen(MainWindow window) {
 		this.window = window;
-		primary = window.getPrimary();
-		secondary = window.getSecondary();
-		titleFont = window.getTitleFont();
-		subtitleFont = window.getSubtitleFont();
-		textFont = window.getTextFont();
+		primary = window.settingsManager.getPrimary();
+		secondary = window.settingsManager.getSecondary();
+		titleFont = window.settingsManager.getTitleFont();
+		subtitleFont = window.settingsManager.getSubtitleFont();
+		textFont = window.settingsManager.getTextFont();
 		this.setLayout(new BorderLayout());
 		this.add(createNorthArea(), BorderLayout.NORTH);
 		this.add(new TrapFeedMasterContent(window), BorderLayout.CENTER);

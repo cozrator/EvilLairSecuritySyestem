@@ -22,6 +22,7 @@ public class TrapMapContent extends TrapContent implements ChangeListener, Actio
 	JScrollPane scroll;
 	static int CONTENT_WIDTH = 2000;
 	static int CONTENT_HEIGHT = 2000;
+	JDialog popUp;
 
 	static class PanListener extends MouseAdapter {
 		private final Point pp = new Point();
@@ -216,7 +217,7 @@ public class TrapMapContent extends TrapContent implements ChangeListener, Actio
 			int index = Integer.parseInt(a.getActionCommand());
 
 			if (index > 0 && index <= mgr.ids.size()) {
-				JDialog popUp = new JDialog();
+				popUp = new JDialog();
 				popUp.setUndecorated(true);
 				popUp.setLayout(new BorderLayout());
 				popUp.add(new TrapCell(window, index));
@@ -229,7 +230,7 @@ public class TrapMapContent extends TrapContent implements ChangeListener, Actio
 					@Override
 					public void windowLostFocus(WindowEvent a) {
 						// when user click off of the dialog, close it.
-						//popUp.dispose();	
+						popUp.dispose();	
 					}
 					
 				});

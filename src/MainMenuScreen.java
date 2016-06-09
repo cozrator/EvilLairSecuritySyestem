@@ -41,6 +41,11 @@ public class MainMenuScreen extends JPanel implements ActionListener {
 	public MainMenuScreen(MainWindow window) {
 		this.window = window;
 		this.frame = window.frame;
+		primary = window.settingsManager.getPrimary();
+		secondary = window.settingsManager.getSecondary();
+		titleFont = window.settingsManager.getTitleFont();
+		subtitleFont = window.settingsManager.getSubtitleFont();
+		textFont = window.settingsManager.getTextFont();
 		//GridBagLayout gbl = new GridBagLayout();
 		this.setLayout(new BorderLayout());
 		

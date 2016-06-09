@@ -36,7 +36,11 @@ MainWindow window;
 	 */
 	public LogInScreen(MainWindow window) {
 		this.window = window;
-		
+		primary = window.settingsManager.getPrimary();
+		secondary = window.settingsManager.getSecondary();
+		titleFont = window.settingsManager.getTitleFont();
+		subtitleFont = window.settingsManager.getSubtitleFont();
+		textFont = window.settingsManager.getTextFont();		
 		this.setLayout(new BorderLayout());
 		
 		this.add(headerArea(), BorderLayout.NORTH);

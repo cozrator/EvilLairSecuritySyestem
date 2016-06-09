@@ -62,12 +62,12 @@ public class TrapCell extends TrapContent {
 
         nameLabel.setText(mgr.getName(index));
         nameLabel.setVerticalAlignment(SwingConstants.CENTER);
-        nameLabel.setFont(window.getTitleFont());
+        nameLabel.setFont(window.settingsManager.getTitleFont());
 
         maintenanceLabel.setHorizontalAlignment(SwingConstants.TRAILING);
         maintenanceLabel.setText(mgr.getMaintenance(index));
         maintenanceLabel.setVerticalAlignment(SwingConstants.CENTER);
-        maintenanceLabel.setFont(window.getSubtitleFont());
+        maintenanceLabel.setFont(window.settingsManager.getSubtitleFont());
 
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
         statusLabel.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
@@ -82,7 +82,7 @@ public class TrapCell extends TrapContent {
         }
         areaLabel.setText(prefix + areaNum);
         areaLabel.setVerticalAlignment(SwingConstants.TOP);
-        areaLabel.setFont(window.getSubtitleFont());
+        areaLabel.setFont(window.settingsManager.getSubtitleFont());
         
         prefix = "Room: ";
         int roomNum = mgr.getRoomNum(index);
@@ -91,14 +91,14 @@ public class TrapCell extends TrapContent {
         }
         roomLabel.setText(prefix + roomNum);
         roomLabel.setVerticalAlignment(SwingConstants.TOP);
-        roomLabel.setFont(window.getSubtitleFont());
+        roomLabel.setFont(window.settingsManager.getSubtitleFont());
 
         descLabel.setText(mgr.getDesc(index));
         descLabel.setVerticalAlignment(SwingConstants.TOP);
-        descLabel.setFont(window.getSubtitleFont());
+        descLabel.setFont(window.settingsManager.getSubtitleFont());
 
         moreButton.setText("MORE");
-        moreButton.setFont(window.getTextFont());
+        moreButton.setFont(window.settingsManager.getTextFont());
 
         GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
