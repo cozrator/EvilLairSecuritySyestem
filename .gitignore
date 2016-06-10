@@ -1,0 +1,8 @@
+*.class
+build/
+assets/
+bin/
+build.xml
+nbproject/
+
+src/IndividualTrapContent.form
