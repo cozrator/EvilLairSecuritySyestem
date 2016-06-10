@@ -951,9 +951,11 @@ public class SettingsScreen extends JPanel implements ActionListener {
 		//Changes the font to Arial, with size 14 font (Enabled by default).
 		else if (e.getActionCommand().equals("dysEnabled")){
 			dysOn = true;
-			settingsMan.setDysOn(true);
 			textSizeIndex = 1;
 			currentFont = 0;
+			settingsMan.setDysOn(true);
+			settingsMan.setTextSizeIndex(1);
+			settingsMan.setCurrentFont(0);
 			Font titleFontTemp = new Font("Arial", Font.BOLD, 20);
 			Font subtitleFontTemp = new Font("Arial", Font.PLAIN, 18);
 			Font textFontTemp = new Font("Arial", Font.PLAIN, 14);
@@ -965,6 +967,7 @@ public class SettingsScreen extends JPanel implements ActionListener {
 				settingsMan.setTextFont(textFontTemp);
 				settingsMan.setSubtitleFont(subtitleFontTemp);
 				settingsMan.setTitleFont(titleFontTemp);
+				
 				this.add(northArea(), BorderLayout.NORTH);
 				this.add(createContentArea(), BorderLayout.CENTER);
 				this.validate();

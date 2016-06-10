@@ -59,7 +59,6 @@ public class IndividualTrapContent extends JPanel implements ActionListener{
 
 	}
 	
-
 	
 	private void setup() {
 	        ratingStars = mgr.getRating(index, new Dimension(40,40));
@@ -107,8 +106,6 @@ public class IndividualTrapContent extends JPanel implements ActionListener{
 	        description.setText(mgr.getDesc(index));
 	        description.setVerticalAlignment(SwingConstants.TOP);
 	        description.setFont(window.settingsManager.getSubtitleFont());
-
-	        
 	}
 	
 	
@@ -130,7 +127,6 @@ public class IndividualTrapContent extends JPanel implements ActionListener{
 		JPanel headerArea = new JPanel();
 
 		String titleText = "Main Camera Feed";
-		//JLabel title = new JLabel("<html><div style='text-align: center;'><div style='text-align: center;'>" + titleText + "</html>", SwingConstants.CENTER);
 		JLabel title = new JLabel(titleText);
 		title.setFont(window.settingsManager.getTextFont());
 		headerArea.setBackground(window.settingsManager.getPrimary());

@@ -42,7 +42,7 @@ public class MainWindow {
 	 * 
 	 */
 	public MainWindow() {
-		currentScreen = new IndividualTrapContent(this, 1);
+		currentScreen = new SettingsScreen(this);
 		primary = settingsManager.getPrimary();
 		secondary = settingsManager.getSecondary();
 		titleFont = settingsManager.getTitleFont();
