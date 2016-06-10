@@ -180,6 +180,7 @@ public class TrapCell extends TrapContent {
      * @param evt - Button Click ActionEvent
      */
 	protected void MoreButtonClicked(ActionEvent evt) {
+		System.out.println("Moved to individual screen for Trap: "+index);
 		window.screenTransition(new IndividualTrapScreen(this.window, index));
 	}                 
 }
