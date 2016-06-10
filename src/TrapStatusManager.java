@@ -323,4 +323,8 @@ public class TrapStatusManager {
 		this.trapStatusTable.put(index, status);
 	}
 
+	public Status getStatus(int index2) {
+		return trapStatusTable.get(index2);
+	}
+
 }

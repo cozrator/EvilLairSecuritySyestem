@@ -11,6 +11,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
@@ -38,7 +40,7 @@ public class IndividualTrapContent extends javax.swing.JPanel{
         jScrollPane1 = new javax.swing.JScrollPane();
         description = new javax.swing.JTextArea();
         MaintenanceReqBtn = new javax.swing.JButton();
-        ToggleArmed = new javax.swing.JToggleButton();
+        ToggleArmed = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         performanceReport = new javax.swing.JTextArea();
         mapPanel = new javax.swing.JLabel();
@@ -58,7 +60,7 @@ public class IndividualTrapContent extends javax.swing.JPanel{
         maintenenceStatus.setText(mgr.getMaintenance(index));
         
         statusColour.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
-
+        
 
         String prefix = "Area: ";
         int areaNum = mgr.getAreaNum(index);
@@ -80,9 +82,14 @@ public class IndividualTrapContent extends javax.swing.JPanel{
 
         description.setColumns(20);
         description.setRows(5);
-        description.setText(mgr.getDesc(index));
+        description.setText(mgr.getDesc(index)+ "\n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel tempor purus. Nam rhoncus quam non tincidunt vulputate. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed et nulla sed ante facilisis rutrum. Mauris laoreet ante ac dapibus volutpat. Aliquam ipsum leo, sollicitudin sed fringilla eu, accumsan ac lectus. Praesent non leo pulvinar, egestas enim faucibus, maximus risus. Integer convallis, eros ac malesuada bibendum, nisl metus aliquam nunc, pretium fringilla lectus lacus et ex. Nulla imperdiet accumsan quam vulputate fermentum. Sed sollicitudin eget nunc sit amet iaculis. Fusce ut ex vitae ex fermentum varius. Ut congue tincidunt odio at porttitor. Phasellus elementum tempor dolor eu suscipit. Sed tristique ut mi sit amet dignissim. Nam faucibus sagittis lacus nec elementum. Cras sollicitudin tincidunt metus mattis iaculis.Etiam semper odio ligula, eu varius est viverra in. Nunc at nisi at nulla ve nenatis tincidunt. Nulla maximus fringilla mauris a suscipit. Aliquam quis mi viverra, auctor diam tristique, eleifend leo. Morbi ultrices dolor ut odio iaculis luctus. Maecenas sed nisl tortor. Etiam ut velit auctor nunc aliquet euismod. Donec quis ante metus. Sed urna quam, dapibus in arcu eu, consectetur luctus nibh. Ut sed erat vitae ante auctor porta sed quis risus. Nunc ac ultrices tortor, sit amet mattis eros. Phasellus facilisis felis ac urna mattis, eget dignissim neque cursus.Aliquam eu eleifend sem. Praesent magna urna, efficitur sed condimentum vel, sodales nec quam. Fusce vel sem est. Aliquam erat volutpat. Nulla nisi eros, efficitur vel magna porttitor, tempor rutrum est. Donec ac risus laoreet, facilisis arcu sit amet, dapibus eros. Vestibulum est justo, venenatis eget dui vel, lobortis volutpat eros. Sed semper neque dolor, id interdum quam semper sed. Duis sit amet nulla nunc. Donec neque nibh, efficitur vel consectetur at, pellentesque vel nisi. Praesent varius, eros vel porta eleifend, elit lorem blandit velit, id fermentum ex mauris sed risus. Etiam dolor nulla, varius porttitor venenatis id, vestibulum quis nulla. Etiam maximus volutpat scelerisque. Curabitur egestas eros vel placerat volutpat. Suspendisse potenti.Quisque et libero fringilla, finibus tortor in, aliquet mauris. Morbi tempor mauris a imperdiet tempus. Aenean dignissim enim urna, non sagittis ante consectetur pulvinar. Aliquam erat volutpat. Phasellus rutrum felis eu augue varius sollicitudin. Integer sem neque, tristique pretium augue nec, varius iaculis elit. Duis molestie urna nulla, et scelerisque tellus consectetur id. Vestibulum non turpis ut nibh semper posuere eget in ex. Etiam finibus sed sapien a convallis. Sed sit amet lorem massa. Integer id luctus diam. Sed vitae mauris neque. Donec id elit volutpat, vehicula enim nec, sollicitudin leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.");
         description.setFont(window.settingsManager.getSubtitleFont());
-        jScrollPane1.setViewportView(description);
+        description.setWrapStyleWord(true);
+        description.setLineWrap(true);
+        description.setEditable(false);
+        description.setFocusable(false);
+        description.setOpaque(false);
+        jScrollPane1 = new JScrollPane(description,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); ;
 
         MaintenanceReqBtn.setText("Maintenance request");
         MaintenanceReqBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -90,8 +97,18 @@ public class IndividualTrapContent extends javax.swing.JPanel{
                 MaintenanceReqBtnActionPerformed(evt);
             }
         });
-
-        ToggleArmed.setText("Arm");
+        if (mgr.getStatus(index) == TrapStatusManager.Status.ACTIVATED){
+        	ToggleArmed.setText("Dearm");
+        	statusColour.setText("Enabled");
+        } else if (mgr.getStatus(index) == TrapStatusManager.Status.DEACTIVATED){
+        	ToggleArmed.setText("Arm");
+        	statusColour.setText("Disabled");
+        } else {
+        	ToggleArmed.setText("Out of Order");
+        	ToggleArmed.setEnabled(false);
+        	statusColour.setText("Malfunctioning");
+        }
+        
         ToggleArmed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ToggleArmedActionPerformed(evt);
@@ -100,7 +117,13 @@ public class IndividualTrapContent extends javax.swing.JPanel{
 
         performanceReport.setColumns(20);
         performanceReport.setRows(5);
-        jScrollPane2.setViewportView(performanceReport);
+        performanceReport.setText("PerformanceReport:\n"+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempus ante a odio eleifend, at mollis elit rutrum. Nullam vehicula suscipit quam at pharetra. Curabitur placerat eu dolor eu vestibulum. Suspendisse potenti. Aenean sit amet est vitae nibh ultrices dapibus eget sed risus. Maecenas commodo metus sit amet justo pulvinar, ac tincidunt risus interdum. Vivamus et eros porttitor, sagittis felis et, vehicula nisi. Praesent at massa et arcu imperdiet lacinia quis a magna. Duis vestibulum viverra turpis in tempor. Sed ac dui in leo dignissim dapibus. Proin posuere hendrerit volutpat. Praesent egestas interdum blandit. Sed facilisis suscipit hendrerit. Integer a enim vitae arcu facilisis accumsan. Fusce eleifend lobortis elit, et vehicula dolor rhoncus a. Praesent scelerisque consectetur placerat. Suspendisse fermentum iaculis orci. Vestibulum facilisis eget nisl ut sollicitudin. Suspendisse maximus ac massa sit amet viverra. Aliquam ultrices risus sit amet dignissim maximus. Nullam a velit consequat, dapibus quam et, sodales est.");
+        performanceReport.setWrapStyleWord(true);
+        performanceReport.setLineWrap(true);
+        performanceReport.setEditable(false);
+        performanceReport.setFocusable(false);
+        performanceReport.setOpaque(false);
+        jScrollPane2 = new JScrollPane(performanceReport,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         BufferedImage img = null;
 		try {
@@ -196,13 +219,23 @@ public class IndividualTrapContent extends javax.swing.JPanel{
     }//GEN-LAST:event_MaintenanceReqBtnActionPerformed
 
     private void ToggleArmedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToggleArmedActionPerformed
-        // TODO add your handling code here:
+        if (mgr.getStatus(index) == TrapStatusManager.Status.ACTIVATED){
+        	mgr.setStatus(index, TrapStatusManager.Status.DEACTIVATED);
+        	ToggleArmed.setText("Arm");
+        	statusColour.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+        	statusColour.setText("Disabled");
+        } else if (mgr.getStatus(index) == TrapStatusManager.Status.DEACTIVATED){
+        	mgr.setStatus(index, TrapStatusManager.Status.ACTIVATED);
+        	ToggleArmed.setText("Dearm");
+        	statusColour.setIcon(new ImageIcon(mgr.getStatusColor(index).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT)));
+        	statusColour.setText("Enabled");
+        }
     }//GEN-LAST:event_ToggleArmedActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton MaintenanceReqBtn;
-    private javax.swing.JToggleButton ToggleArmed;
+    private JButton ToggleArmed;
     private javax.swing.JLabel areaNumber;
     private javax.swing.JTextArea description;
     private javax.swing.JLabel image;
