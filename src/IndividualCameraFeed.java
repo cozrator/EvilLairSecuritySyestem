@@ -361,7 +361,7 @@ public class IndividualCameraFeed extends JPanel implements ActionListener{
 		String titleText = "Main Camera Feed";
 		//JLabel title = new JLabel("<html><div style='text-align: center;'><div style='text-align: center;'>" + titleText + "</html>", SwingConstants.CENTER);
 		JLabel title = new JLabel(titleText);
-		title.setFont(window.settingsManager.getTextFont());
+		title.setFont(window.settingsManager.getTitleFont());
 		headerArea.setBackground(window.settingsManager.getPrimary());
 		headerArea.setLayout(new BorderLayout());
 		headerArea.setBorder(new EmptyBorder(10,20,10,20));
